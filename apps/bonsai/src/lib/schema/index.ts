@@ -6,3 +6,4 @@ export * from "./execution-packet";
 export * from "./decision-log";
 export * from "./connection";
 export * from "./agent-activity";
+export * from "./agent-chat";

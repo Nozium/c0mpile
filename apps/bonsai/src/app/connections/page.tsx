@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { ConnectionsData } from "@/lib/schema";
 import { ConnectionsConsole } from "@/features/phase2/connections/ConnectionsConsole";
 import { deriveConnectionsAgentActivity } from "@/features/phase2/agent-activity/derive";
+import { AgentChatPanel } from "@/features/phase2/agent-activity/AgentChatPanel";
 
 export default function ConnectionsPage() {
   const [data, setData] = useState<ConnectionsData | null>(null);
@@ -12,6 +13,7 @@ export default function ConnectionsPage() {
   const [runId, setRunId] = useState<string | null>(null);
   const [initialDecisionId, setInitialDecisionId] = useState<string | null>(null);
   const [initialObservationId, setInitialObservationId] = useState<string | null>(null);
+  const [chatAgent, setChatAgent] = useState<"evidence" | "judgment" | "handoff" | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -85,12 +87,13 @@ export default function ConnectionsPage() {
             <div className="border-b bg-white px-6 py-3">
               <div className="flex flex-wrap gap-2">
                 {activity.map((item) => (
-                  <span
+                  <button
                     key={item.id}
-                    className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-[10px] text-gray-600"
+                    onClick={() => setChatAgent(item.agent_type)}
+                    className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-[10px] text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
                   >
-                    {item.summary}
-                  </span>
+                    {item.summary} · Chat
+                  </button>
                 ))}
               </div>
             </div>
@@ -107,6 +110,22 @@ export default function ConnectionsPage() {
           </div>
         )}
       </main>
+
+      {chatAgent && (
+        <AgentChatPanel
+          agentType={chatAgent}
+          context={{
+            observations: data?.observations.map((o) => ({
+              id: o.observation_id,
+              raw_text: o.raw_text,
+              source: o.source,
+              channel_type: o.channel_type,
+              severity: o.severity,
+            })),
+          }}
+          onClose={() => setChatAgent(null)}
+        />
+      )}
     </div>
   );
 }

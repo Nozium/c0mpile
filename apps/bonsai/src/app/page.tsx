@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import type { AllocationRun, Constitution, Proposal, ExecutionPacket } from "@/lib/schema";
+import type { AllocationRun, Constitution, Proposal, ExecutionPacket, AgentChatContext } from "@/lib/schema";
 import { AllocationBoard } from "@/features/phase1/boards/AllocationBoard";
 import { ConstitutionInput } from "@/features/phase1/constitution/ConstitutionInput";
 import { AgentActivityStrip } from "@/features/phase2/agent-activity/AgentActivityStrip";
@@ -194,6 +194,14 @@ export default function Home() {
             <div className="mb-6">
               <AgentActivityStrip
                 items={deriveBoardAgentActivity(run, executionPackets)}
+                chatContext={{
+                  constitution: (() => {
+                    const c = customConstitution ?? constitutions.find((c) => c.id === selectedConstitution);
+                    if (!c) return undefined;
+                    return { we_are: c.raw_input.we_are, we_never: c.raw_input.we_never, we_value: c.raw_input.we_value, label: c.label };
+                  })(),
+                  run_summary: run.summary,
+                } satisfies AgentChatContext}
               />
             </div>
             <AllocationBoard
