@@ -1,6 +1,6 @@
 # Phase1-5 MVP Hypothesis Validation And Demo Gates
 
-- Status: Proposed
+- Status: Done
 - Depends on: `01_constitution_input_and_parser.md`, `03_allocation_engine_and_decision_trace.md`
 
 ## 背景
@@ -59,8 +59,16 @@ Phase1 の MVP spine と並行して、BONSAI の中核仮説に対する Go / N
 - 最初の 2 週間では H-1 と H-4 系の検証が重い
 - 過剰設計は明示的なリスクとして扱う
 
+## 実装結果
+
+- `data/demo/fallback-run.json` — pre-computed run artifact (Constitution A/B 2セット)
+- `generate-fallback.ts` — fallback artifact 再生成スクリプト
+- Constitution A/B で 2 件の decision 差分を安定再現 (theme-002: build→kill, theme-003: defer→kill)
+- live run + fallback の両方で demo 実行可能
+- ConstitutionLens で clause 横断の一貫性を可視化
+
 ## 未確定 / 要確認
 
-- interview 対象のセグメント
-- LP / waitlist への流入手段
-- 仮説管理を run artifact に含めるか、別管理にするか
+- interview 対象のセグメント (非実装タスク)
+- LP / waitlist への流入手段 (非実装タスク)
+- 仮説管理を run artifact に含めるか、別管理にするか (非実装タスク)

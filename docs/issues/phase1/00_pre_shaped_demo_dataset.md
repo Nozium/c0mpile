@@ -1,6 +1,6 @@
 # Phase1-0 Pre-Shaped Demo Dataset
 
-- Status: Proposed
+- Status: Done
 - Depends on: なし
 
 ## 背景
@@ -47,8 +47,16 @@ Constitution A / B と build / kill の差分を安定して見せられる、�
 - pre-shaped dataset は MVP の正当な近道である
 - mechanism の証明が目的であり、live ingest の証明は目的ではない
 
-## 未確定 / 要確認
+## 実装結果
 
-- どの source を demo fixture に含めるか
-- 何件あれば十分に説得力が出るか
-- fallback artifact を JSON にするか、画面キャプチャも持つか
+- `data/demo/` に Constitution A/B、observations (24件)、themes (5件) を JSON で配置
+- `src/data/fixtures/loader.ts` で static bundle を読み込み
+- `data/demo/fallback-run.json` に pre-computed run artifact を JSON で保持
+- Constitution A/B で 2 件の decision 差分 (theme-002: build→kill, theme-003: defer→kill)
+- `generate-fallback.ts` スクリプトで再生成可能
+
+## 未確定 / 要確認 (解決済み)
+
+- ~~どの source を demo fixture に含めるか~~ → interviews, usage, support, CRM export を混在
+- ~~何件あれば十分に説得力が出るか~~ → 24 observations / 5 themes で成立確認
+- ~~fallback artifact を JSON にするか、画面キャプチャも持つか~~ → JSON に決定

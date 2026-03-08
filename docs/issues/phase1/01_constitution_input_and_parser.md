@@ -1,6 +1,6 @@
 # Phase1-1 Constitution Input And Parser
 
-- Status: Proposed
+- Status: Done
 - Depends on: なし
 
 ## 背景
@@ -50,9 +50,19 @@
 - constitution は UX 入力でありつつ、内部では機械評価可能である必要がある
 - H-4 は Phase1 で前に進める
 
-## 未確定 / 要確認
+## 実装結果
 
-- clause の最終 schema
-- clause weight を設定可能にするか
-- desired transition を phase2 でどこまで使うか
-- constitution を自力で書けないユーザーの入力 UX
+- `src/features/phase1/constitution/parser.ts` — `parseConstitution(id, label, rawInput)` で 3行入力 → 5軸正規化 → clause 群を生成
+- `src/features/phase1/constitution/ConstitutionInput.tsx` — preset A/B 選択 + custom 入力モード、clause preview 付き
+- `src/lib/schema/constitution.ts` — Zod schema: `ClauseSchema` (id, axis, source_line, text, type: hard|soft, polarity: desired|forbidden)
+- hard clause (we_never → forbidden) / soft clause (we_are, we_value → desired) を区別
+- custom constitution が allocation に inline で流れる (`/api/allocate` が `{ constitution }` を受付)
+- Constitution 変更で board が即時再評価される導線を実装
+- テスト 7件 pass (`constitution-parser.test.ts`)
+
+## 未確定 / 要確認 (解決済み)
+
+- ~~clause の最終 schema~~ → ClauseSchema (id, axis, source_line, text, type, polarity)
+- ~~clause weight を設定可能にするか~~ → Phase1 では weight なし、hard/soft の 2段階
+- ~~desired transition を phase2 でどこまで使うか~~ → Phase2 以降に持ち越し
+- ~~constitution を自力で書けないユーザーの入力 UX~~ → preset A/B + 3 textarea での最小 UX を実装

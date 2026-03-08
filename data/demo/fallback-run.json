@@ -1,0 +1,668 @@
+{
+  "generated_at": "2026-03-08T04:50:49.978Z",
+  "runs": [
+    {
+      "id": "run-const-a-1772945449977",
+      "constitution_id": "const-a",
+      "constitution_label": "Constitution A: Privacy-First Productivity",
+      "timestamp": "2026-03-08T04:50:49.977Z",
+      "observation_count": 50,
+      "theme_count": 7,
+      "decisions": [
+        {
+          "id": "decision-theme-001",
+          "theme_id": "theme-001",
+          "theme_label": "Data Sovereignty & Offline-First",
+          "verdict": "kill",
+          "confidence": 0.7999999999999999,
+          "feature_outline_summary": "[KILL] Data Sovereignty & Offline-First: Users demand local data storage, offline access, and full data portability. Connectivity dependency is a churn trigger, not a feature gap.. This direction conflicts with constitutional constraints.",
+          "violated_clauses": [
+            {
+              "clause_id": "const-a-forbidden-3",
+              "clause_text": "cloud-only storage with no local option",
+              "axis": "prohibited_business_model",
+              "violation_reason": "Theme content matches forbidden clause \"cloud-only storage with no local option\" (matched: cloud-only, storage, local)"
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-001",
+              "raw_text": "I switched from Notion because I got tired of my notes being in someone else's cloud. I need to own my data. Period.",
+              "relevance": "pain signal (critical, confidence: 0.92)"
+            },
+            {
+              "observation_id": "obs-007",
+              "raw_text": "The offline thing is huge for me. I travel a lot, I'm on planes, I can't depend on cloud. If it doesn't work offline, I don't use it.",
+              "relevance": "pain signal (major, confidence: 0.9)"
+            },
+            {
+              "observation_id": "obs-009",
+              "raw_text": "Feature: offline_sync — 78% of active users enable offline mode within first week. Retention for offline-enabled users: 85% at D30 vs 45% for cloud-only users.",
+              "relevance": "retention_risk signal (critical, confidence: 0.97)"
+            },
+            {
+              "observation_id": "obs-016",
+              "raw_text": "Love the concept but the app is useless without internet. I was on a flight and couldn't access my notes. Deleted it.",
+              "relevance": "pain signal (critical, confidence: 0.88)"
+            },
+            {
+              "observation_id": "obs-021",
+              "raw_text": "I love that my data stays on my device. This is how all productivity tools should work. Take my money.",
+              "relevance": "praise signal (neutral, confidence: 0.9)"
+            },
+            {
+              "observation_id": "obs-023",
+              "raw_text": "I exported my data as CSV but it doesn't include my tags or folder structure. The export is useless without metadata. I feel trapped.",
+              "relevance": "pain signal (major, confidence: 0.86)"
+            }
+          ],
+          "kill_reason": "Violates 1 constitutional clause(s): cloud-only storage with no local option"
+        },
+        {
+          "id": "decision-theme-002",
+          "theme_id": "theme-002",
+          "theme_label": "Judgment Bottleneck at Scale",
+          "verdict": "build",
+          "confidence": 0.707,
+          "feature_outline_summary": "[BUILD] Judgment Bottleneck at Scale: AI-accelerated production has created a decision backlog. Teams with 15+ candidates cannot allocate resources effectively using spreadsheets and intuition.. Aligned with constitutional direction and supported by customer evidence.",
+          "violated_clauses": [],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-002",
+              "raw_text": "We evaluated 8 tools last quarter. Shipped features for 6 of them. Two actually moved metrics. The other 4 were a waste. We had no framework to say no earlier.",
+              "relevance": "pain signal (critical, confidence: 0.95)"
+            },
+            {
+              "observation_id": "obs-004",
+              "raw_text": "AI coding tools let us prototype in hours. But now we have 15 prototypes and no idea which 3 to actually invest in. The decision backlog is worse than the dev backlog ever was.",
+              "relevance": "pain signal (critical, confidence: 0.93)"
+            },
+            {
+              "observation_id": "obs-031",
+              "raw_text": "We use Notion + a spreadsheet + gut feeling. It works okay for 10 candidates. But we now have 40 and the spreadsheet is chaos. I need something that scales beyond gut.",
+              "relevance": "pain signal (major, confidence: 0.89)"
+            },
+            {
+              "observation_id": "obs-042",
+              "raw_text": "Shipped 3 features this week with Cursor. None of them were in our roadmap. We just... built what felt exciting. Now I'm not sure any of them matter.",
+              "relevance": "pain signal (major, confidence: 0.86)"
+            },
+            {
+              "observation_id": "obs-008",
+              "raw_text": "I'd pay $200/month if it could tell me which of our 20 feature candidates to kill, with evidence I can show to stakeholders. Right now I spend a full week every quarter on prioritization theater.",
+              "relevance": "desire signal (critical, confidence: 0.94)"
+            }
+          ],
+          "build_rationale": "Aligns with 1 clause(s) and supported by 3 critical observations. Theme aligns with \"simplicity and minimalism; fewer features done well over feature bloat\" (matched: features, feature)"
+        },
+        {
+          "id": "decision-theme-003",
+          "theme_id": "theme-003",
+          "theme_label": "Kill Decision Accountability",
+          "verdict": "defer",
+          "confidence": 0.558,
+          "feature_outline_summary": "[DEFER] Kill Decision Accountability: PMs need evidence-based kill justification to survive executive scrutiny. 'Gut feeling' is politically indefensible; clause-level reasoning provides organizational cover.. Revisit when more evidence supports prioritization.",
+          "violated_clauses": [],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-006",
+              "raw_text": "We don't need another AI that tells us what to build. We need something that helps us explain why we're NOT building something. My CEO keeps asking 'why did we kill that?' and I can't point to anything concrete.",
+              "relevance": "pain signal (critical, confidence: 0.96)"
+            },
+            {
+              "observation_id": "obs-032",
+              "raw_text": "What I really want is a way to explain to my CEO why we killed something. Not 'I felt it wasn't right' but 'here are 12 pieces of evidence and 2 constitutional violations'. That's what gets me political cover.",
+              "relevance": "desire signal (critical, confidence: 0.94)"
+            },
+            {
+              "observation_id": "obs-003",
+              "raw_text": "Our PM team of 5 each has their own prioritization spreadsheet. When we need to decide what to cut, it becomes political. There's no shared framework.",
+              "relevance": "pain signal (major, confidence: 0.88)"
+            },
+            {
+              "observation_id": "obs-037",
+              "raw_text": "The kill board is brilliant. Never seen another tool that shows you what NOT to build with actual evidence. This is what product management has been missing.",
+              "relevance": "praise signal (neutral, confidence: 0.88)"
+            },
+            {
+              "observation_id": "obs-043",
+              "raw_text": "Show me the evidence trail. If I can click on a kill decision and see the exact customer quotes that led to it, that's worth the subscription alone.",
+              "relevance": "desire signal (critical, confidence: 0.92)"
+            }
+          ],
+          "defer_reason": "Insufficient evidence to decide. 5 observations evaluated, no strong constitutional signal."
+        },
+        {
+          "id": "decision-theme-004",
+          "theme_id": "theme-004",
+          "theme_label": "Anti-Engagement: Focus Over Noise",
+          "verdict": "kill",
+          "confidence": 0.95,
+          "feature_outline_summary": "[KILL] Anti-Engagement: Focus Over Noise: Engagement-maximizing patterns (notifications, social feeds, gamification, unsolicited AI) are anti-correlated with retention in the focus-oriented segment. These features actively harm the product.. This direction conflicts with constitutional constraints.",
+          "violated_clauses": [
+            {
+              "clause_id": "const-a-prohibited_business_model",
+              "clause_text": "data monetization, advertising, engagement-maximizing dark patterns",
+              "axis": "prohibited_business_model",
+              "violation_reason": "Theme content matches forbidden clause \"data monetization, advertising, engagement-maximizing dark patterns\" (matched: engagement-maximizing, patterns)"
+            },
+            {
+              "clause_id": "const-a-forbidden-0",
+              "clause_text": "notification spam to drive engagement",
+              "axis": "prohibited_business_model",
+              "violation_reason": "Theme content matches forbidden clause \"notification spam to drive engagement\" (matched: notification, spam, engagement)"
+            },
+            {
+              "clause_id": "const-a-forbidden-2",
+              "clause_text": "social features that expose user activity",
+              "axis": "prohibited_business_model",
+              "violation_reason": "Theme content matches forbidden clause \"social features that expose user activity\" (matched: social, features, user, activity)"
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-010",
+              "raw_text": "Feature: social_activity_feed — only 12% of users interact with it. Of those, 60% disable it within 2 weeks. Top complaint in settings: 'too noisy'.",
+              "relevance": "trust_risk signal (major, confidence: 0.91)"
+            },
+            {
+              "observation_id": "obs-011",
+              "raw_text": "Feature: ai_suggestion_panel — 45% click-through on first exposure, drops to 8% by day 7. Users who disable it have higher D30 retention (72%) than users who keep it (58%).",
+              "relevance": "trust_risk signal (major, confidence: 0.89)"
+            },
+            {
+              "observation_id": "obs-019",
+              "raw_text": "The AI features feel forced. I didn't ask for suggestions while writing. It breaks my flow. Let me turn them off or I'm leaving.",
+              "relevance": "pain signal (major, confidence: 0.87)"
+            },
+            {
+              "observation_id": "obs-022",
+              "raw_text": "Notification spam killed it for me. I turned off notifications and forgot the app existed. Engagement tricks don't work on people who want focus.",
+              "relevance": "trust_risk signal (major, confidence: 0.88)"
+            },
+            {
+              "observation_id": "obs-033",
+              "raw_text": "Feature: gamification_badges — 5% adoption after 30 days. Users who interact with badges have 20% lower NPS than non-interactors. Negative correlation with focus_mode usage.",
+              "relevance": "trust_risk signal (major, confidence: 0.9)"
+            },
+            {
+              "observation_id": "obs-035",
+              "raw_text": "Feature: notification_digest — sent daily to 100% of users. Open rate: 8%. Click-through: 2%. Unsubscribe requests: 340 in past month (12% of MAU).",
+              "relevance": "trust_risk signal (major, confidence: 0.92)"
+            }
+          ],
+          "kill_reason": "Violates 3 constitutional clause(s): data monetization, advertising, engagement-maximizing dark patterns; notification spam to drive engagement; social features that expose user activity"
+        },
+        {
+          "id": "decision-theme-005",
+          "theme_id": "theme-005",
+          "theme_label": "Team Collaboration & Shared Decisions",
+          "verdict": "kill",
+          "confidence": 0.7999999999999999,
+          "feature_outline_summary": "[KILL] Team Collaboration & Shared Decisions: Multi-PM teams need shared visibility into build/kill decisions. Solo features don't scale. Real-time collaboration and role-based access are required for teams >3.. This direction conflicts with constitutional constraints.",
+          "violated_clauses": [
+            {
+              "clause_id": "const-a-forbidden-2",
+              "clause_text": "social features that expose user activity",
+              "axis": "prohibited_business_model",
+              "violation_reason": "Theme content matches forbidden clause \"social features that expose user activity\" (matched: features, user)"
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-005",
+              "raw_text": "I want my team to collaborate in real-time. Async is too slow for us. We need everyone seeing the same board, same data, same decisions, live.",
+              "relevance": "desire signal (major, confidence: 0.85)"
+            },
+            {
+              "observation_id": "obs-012",
+              "raw_text": "Feature: team_dashboard — 92% of teams with 3+ members use it daily. Correlates with 2.3x higher expansion revenue. Top request: 'make the kill/defer reasons visible to the whole team'.",
+              "relevance": "adoption signal (major, confidence: 0.93)"
+            },
+            {
+              "observation_id": "obs-014",
+              "raw_text": "Feature: real_time_collab — 88% adoption in teams >5 people. Average session overlap: 3.2 concurrent users. But solo founders never use it (0% adoption for team_size=1).",
+              "relevance": "adoption signal (minor, confidence: 0.87)"
+            },
+            {
+              "observation_id": "obs-020",
+              "raw_text": "Great for solo use but terrible for teams. Can't share a board, can't see what others decided. We need team visibility.",
+              "relevance": "desire signal (major, confidence: 0.83)"
+            },
+            {
+              "observation_id": "obs-036",
+              "raw_text": "Tried to use this for my team of 8. The lack of role-based access is a non-starter. I can't have junior PMs overriding kill decisions made by the Head of Product.",
+              "relevance": "pain signal (major, confidence: 0.82)"
+            }
+          ],
+          "kill_reason": "Violates 1 constitutional clause(s): social features that expose user activity"
+        },
+        {
+          "id": "decision-theme-006",
+          "theme_id": "theme-006",
+          "theme_label": "Builder Handoff & Execution Pipeline",
+          "verdict": "defer",
+          "confidence": 0.53,
+          "feature_outline_summary": "[DEFER] Builder Handoff & Execution Pipeline: Decisions alone are insufficient. Build candidates must flow into execution packets with UI/data/workflow specs and coding agent task breakdowns. Users want Cursor/Linear integration.. Revisit when more evidence supports prioritization.",
+          "violated_clauses": [],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-025",
+              "raw_text": "How do I integrate with Cursor? I want to pipe your execution packets directly into my coding agent. Is there an API?",
+              "relevance": "desire signal (major, confidence: 0.84)"
+            },
+            {
+              "observation_id": "obs-034",
+              "raw_text": "Feature: export_to_linear — 67% of execution_packet viewers click 'export to Linear/Jira'. But only 12% complete the export. Blocker: authentication flow for external tools.",
+              "relevance": "adoption signal (minor, confidence: 0.84)"
+            },
+            {
+              "observation_id": "obs-040",
+              "raw_text": "The execution packet is great but it's too abstract. 'Improve onboarding flow' — how? I need specific UI mockup descriptions, not generic directions.",
+              "relevance": "pain signal (major, confidence: 0.85)"
+            },
+            {
+              "observation_id": "obs-048",
+              "raw_text": "This replaced our quarterly planning. We used to spend 2 weeks in meetings deciding what to build. Now it takes 2 hours with BONSAI and the decisions are better because they're evidence-based.",
+              "relevance": "praise signal (neutral, confidence: 0.91)"
+            }
+          ],
+          "defer_reason": "No strong constitutional alignment found and urgency is medium. Evidence is insufficient to prioritize."
+        },
+        {
+          "id": "decision-theme-007",
+          "theme_id": "theme-007",
+          "theme_label": "Constitution Usability & Trust",
+          "verdict": "defer",
+          "confidence": 0.5439999999999999,
+          "feature_outline_summary": "[DEFER] Constitution Usability & Trust: Constitution is the core differentiator but also the biggest onboarding barrier. Writing 3 lines takes 45 min. Normalization errors destroy trust. Parser accuracy is existential.. Revisit when more evidence supports prioritization.",
+          "violated_clauses": [],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-013",
+              "raw_text": "Onboarding funnel: signup (100%) → constitution_input (68%) → first_pipeline_run (41%) → evidence_drilldown (22%) → execution_packet (9%). Biggest drop: constitution_input → first_pipeline_run.",
+              "relevance": "retention_risk signal (critical, confidence: 0.95)"
+            },
+            {
+              "observation_id": "obs-027",
+              "raw_text": "The kill reasoning said 'violates prohibited_business_model' but my constitution says 'we never compromise on quality'. That's not a business model violation. The clause mapping is wrong.",
+              "relevance": "pain signal (critical, confidence: 0.93)"
+            },
+            {
+              "observation_id": "obs-028",
+              "raw_text": "I changed my constitution and re-ran the pipeline but 3 out of 5 results were identical. I expected everything to change. Is it actually using my constitution?",
+              "relevance": "pain signal (critical, confidence: 0.91)"
+            },
+            {
+              "observation_id": "obs-038",
+              "raw_text": "Constitution concept is cool but writing 'We are / We never / We value' took me 45 minutes. By then I was frustrated and didn't finish onboarding.",
+              "relevance": "pain signal (major, confidence: 0.86)"
+            },
+            {
+              "observation_id": "obs-047",
+              "raw_text": "I tried explaining the 'constitution' concept to my team and they looked at me like I was crazy. The naming is too academic. Just call it 'product policy' or 'team principles'.",
+              "relevance": "pain signal (minor, confidence: 0.79)"
+            }
+          ],
+          "defer_reason": "Insufficient evidence to decide. 5 observations evaluated, no strong constitutional signal."
+        }
+      ],
+      "summary": {
+        "build_count": 1,
+        "defer_count": 3,
+        "kill_count": 3
+      }
+    },
+    {
+      "id": "run-const-b-1772945449978",
+      "constitution_id": "const-b",
+      "constitution_label": "Constitution B: Growth-First Collaboration",
+      "timestamp": "2026-03-08T04:50:49.978Z",
+      "observation_count": 50,
+      "theme_count": 7,
+      "decisions": [
+        {
+          "id": "decision-theme-001",
+          "theme_id": "theme-001",
+          "theme_label": "Data Sovereignty & Offline-First",
+          "verdict": "kill",
+          "confidence": 0.7999999999999999,
+          "feature_outline_summary": "[KILL] Data Sovereignty & Offline-First: Users demand local data storage, offline access, and full data portability. Connectivity dependency is a churn trigger, not a feature gap.. This direction conflicts with constitutional constraints.",
+          "violated_clauses": [
+            {
+              "clause_id": "const-b-forbidden-4",
+              "clause_text": "hiding usage data from team leads",
+              "axis": "prohibited_business_model",
+              "violation_reason": "Theme content matches forbidden clause \"hiding usage data from team leads\" (matched: data, from)"
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-001",
+              "raw_text": "I switched from Notion because I got tired of my notes being in someone else's cloud. I need to own my data. Period.",
+              "relevance": "pain signal (critical, confidence: 0.92)"
+            },
+            {
+              "observation_id": "obs-007",
+              "raw_text": "The offline thing is huge for me. I travel a lot, I'm on planes, I can't depend on cloud. If it doesn't work offline, I don't use it.",
+              "relevance": "pain signal (major, confidence: 0.9)"
+            },
+            {
+              "observation_id": "obs-009",
+              "raw_text": "Feature: offline_sync — 78% of active users enable offline mode within first week. Retention for offline-enabled users: 85% at D30 vs 45% for cloud-only users.",
+              "relevance": "retention_risk signal (critical, confidence: 0.97)"
+            },
+            {
+              "observation_id": "obs-016",
+              "raw_text": "Love the concept but the app is useless without internet. I was on a flight and couldn't access my notes. Deleted it.",
+              "relevance": "pain signal (critical, confidence: 0.88)"
+            },
+            {
+              "observation_id": "obs-021",
+              "raw_text": "I love that my data stays on my device. This is how all productivity tools should work. Take my money.",
+              "relevance": "praise signal (neutral, confidence: 0.9)"
+            },
+            {
+              "observation_id": "obs-023",
+              "raw_text": "I exported my data as CSV but it doesn't include my tags or folder structure. The export is useless without metadata. I feel trapped.",
+              "relevance": "pain signal (major, confidence: 0.86)"
+            }
+          ],
+          "kill_reason": "Violates 1 constitutional clause(s): hiding usage data from team leads"
+        },
+        {
+          "id": "decision-theme-002",
+          "theme_id": "theme-002",
+          "theme_label": "Judgment Bottleneck at Scale",
+          "verdict": "kill",
+          "confidence": 0.7999999999999999,
+          "feature_outline_summary": "[KILL] Judgment Bottleneck at Scale: AI-accelerated production has created a decision backlog. Teams with 15+ candidates cannot allocate resources effectively using spreadsheets and intuition.. This direction conflicts with constitutional constraints.",
+          "violated_clauses": [
+            {
+              "clause_id": "const-b-forbidden-1",
+              "clause_text": "features that require admin approval to use",
+              "axis": "prohibited_business_model",
+              "violation_reason": "Theme content matches forbidden clause \"features that require admin approval to use\" (matched: features, use)"
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-002",
+              "raw_text": "We evaluated 8 tools last quarter. Shipped features for 6 of them. Two actually moved metrics. The other 4 were a waste. We had no framework to say no earlier.",
+              "relevance": "pain signal (critical, confidence: 0.95)"
+            },
+            {
+              "observation_id": "obs-004",
+              "raw_text": "AI coding tools let us prototype in hours. But now we have 15 prototypes and no idea which 3 to actually invest in. The decision backlog is worse than the dev backlog ever was.",
+              "relevance": "pain signal (critical, confidence: 0.93)"
+            },
+            {
+              "observation_id": "obs-031",
+              "raw_text": "We use Notion + a spreadsheet + gut feeling. It works okay for 10 candidates. But we now have 40 and the spreadsheet is chaos. I need something that scales beyond gut.",
+              "relevance": "pain signal (major, confidence: 0.89)"
+            },
+            {
+              "observation_id": "obs-042",
+              "raw_text": "Shipped 3 features this week with Cursor. None of them were in our roadmap. We just... built what felt exciting. Now I'm not sure any of them matter.",
+              "relevance": "pain signal (major, confidence: 0.86)"
+            },
+            {
+              "observation_id": "obs-008",
+              "raw_text": "I'd pay $200/month if it could tell me which of our 20 feature candidates to kill, with evidence I can show to stakeholders. Right now I spend a full week every quarter on prioritization theater.",
+              "relevance": "desire signal (critical, confidence: 0.94)"
+            }
+          ],
+          "kill_reason": "Violates 1 constitutional clause(s): features that require admin approval to use"
+        },
+        {
+          "id": "decision-theme-003",
+          "theme_id": "theme-003",
+          "theme_label": "Kill Decision Accountability",
+          "verdict": "kill",
+          "confidence": 0.7999999999999999,
+          "feature_outline_summary": "[KILL] Kill Decision Accountability: PMs need evidence-based kill justification to survive executive scrutiny. 'Gut feeling' is politically indefensible; clause-level reasoning provides organizational cover.. This direction conflicts with constitutional constraints.",
+          "violated_clauses": [
+            {
+              "clause_id": "const-b-trust_compliance_rule",
+              "clause_text": "transparency over privacy; team activity is visible by default; analytics-first",
+              "axis": "trust_compliance_rule",
+              "violation_reason": "Theme content matches forbidden clause \"transparency over privacy; team activity is visible by default; analytics-first\" (matched: over, team)"
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-006",
+              "raw_text": "We don't need another AI that tells us what to build. We need something that helps us explain why we're NOT building something. My CEO keeps asking 'why did we kill that?' and I can't point to anything concrete.",
+              "relevance": "pain signal (critical, confidence: 0.96)"
+            },
+            {
+              "observation_id": "obs-032",
+              "raw_text": "What I really want is a way to explain to my CEO why we killed something. Not 'I felt it wasn't right' but 'here are 12 pieces of evidence and 2 constitutional violations'. That's what gets me political cover.",
+              "relevance": "desire signal (critical, confidence: 0.94)"
+            },
+            {
+              "observation_id": "obs-003",
+              "raw_text": "Our PM team of 5 each has their own prioritization spreadsheet. When we need to decide what to cut, it becomes political. There's no shared framework.",
+              "relevance": "pain signal (major, confidence: 0.88)"
+            },
+            {
+              "observation_id": "obs-037",
+              "raw_text": "The kill board is brilliant. Never seen another tool that shows you what NOT to build with actual evidence. This is what product management has been missing.",
+              "relevance": "praise signal (neutral, confidence: 0.88)"
+            },
+            {
+              "observation_id": "obs-043",
+              "raw_text": "Show me the evidence trail. If I can click on a kill decision and see the exact customer quotes that led to it, that's worth the subscription alone.",
+              "relevance": "desire signal (critical, confidence: 0.92)"
+            }
+          ],
+          "kill_reason": "Violates 1 constitutional clause(s): transparency over privacy; team activity is visible by default; analytics-first"
+        },
+        {
+          "id": "decision-theme-004",
+          "theme_id": "theme-004",
+          "theme_label": "Anti-Engagement: Focus Over Noise",
+          "verdict": "kill",
+          "confidence": 0.7999999999999999,
+          "feature_outline_summary": "[KILL] Anti-Engagement: Focus Over Noise: Engagement-maximizing patterns (notifications, social feeds, gamification, unsolicited AI) are anti-correlated with retention in the focus-oriented segment. These features actively harm the product.. This direction conflicts with constitutional constraints.",
+          "violated_clauses": [
+            {
+              "clause_id": "const-b-forbidden-1",
+              "clause_text": "features that require admin approval to use",
+              "axis": "prohibited_business_model",
+              "violation_reason": "Theme content matches forbidden clause \"features that require admin approval to use\" (matched: features, use)"
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-010",
+              "raw_text": "Feature: social_activity_feed — only 12% of users interact with it. Of those, 60% disable it within 2 weeks. Top complaint in settings: 'too noisy'.",
+              "relevance": "trust_risk signal (major, confidence: 0.91)"
+            },
+            {
+              "observation_id": "obs-011",
+              "raw_text": "Feature: ai_suggestion_panel — 45% click-through on first exposure, drops to 8% by day 7. Users who disable it have higher D30 retention (72%) than users who keep it (58%).",
+              "relevance": "trust_risk signal (major, confidence: 0.89)"
+            },
+            {
+              "observation_id": "obs-019",
+              "raw_text": "The AI features feel forced. I didn't ask for suggestions while writing. It breaks my flow. Let me turn them off or I'm leaving.",
+              "relevance": "pain signal (major, confidence: 0.87)"
+            },
+            {
+              "observation_id": "obs-022",
+              "raw_text": "Notification spam killed it for me. I turned off notifications and forgot the app existed. Engagement tricks don't work on people who want focus.",
+              "relevance": "trust_risk signal (major, confidence: 0.88)"
+            },
+            {
+              "observation_id": "obs-033",
+              "raw_text": "Feature: gamification_badges — 5% adoption after 30 days. Users who interact with badges have 20% lower NPS than non-interactors. Negative correlation with focus_mode usage.",
+              "relevance": "trust_risk signal (major, confidence: 0.9)"
+            },
+            {
+              "observation_id": "obs-035",
+              "raw_text": "Feature: notification_digest — sent daily to 100% of users. Open rate: 8%. Click-through: 2%. Unsubscribe requests: 340 in past month (12% of MAU).",
+              "relevance": "trust_risk signal (major, confidence: 0.92)"
+            }
+          ],
+          "kill_reason": "Violates 1 constitutional clause(s): features that require admin approval to use"
+        },
+        {
+          "id": "decision-theme-005",
+          "theme_id": "theme-005",
+          "theme_label": "Team Collaboration & Shared Decisions",
+          "verdict": "kill",
+          "confidence": 0.95,
+          "feature_outline_summary": "[KILL] Team Collaboration & Shared Decisions: Multi-PM teams need shared visibility into build/kill decisions. Solo features don't scale. Real-time collaboration and role-based access are required for teams >3.. This direction conflicts with constitutional constraints.",
+          "violated_clauses": [
+            {
+              "clause_id": "const-b-prohibited_business_model",
+              "clause_text": "slow enterprise sales cycles, per-seat pricing that blocks adoption",
+              "axis": "prohibited_business_model",
+              "violation_reason": "Theme content matches forbidden clause \"slow enterprise sales cycles, per-seat pricing that blocks adoption\" (matched: slow, adoption)"
+            },
+            {
+              "clause_id": "const-b-trust_compliance_rule",
+              "clause_text": "transparency over privacy; team activity is visible by default; analytics-first",
+              "axis": "trust_compliance_rule",
+              "violation_reason": "Theme content matches forbidden clause \"transparency over privacy; team activity is visible by default; analytics-first\" (matched: over, team, visible)"
+            },
+            {
+              "clause_id": "const-b-forbidden-1",
+              "clause_text": "features that require admin approval to use",
+              "axis": "prohibited_business_model",
+              "violation_reason": "Theme content matches forbidden clause \"features that require admin approval to use\" (matched: features, require, use)"
+            },
+            {
+              "clause_id": "const-b-forbidden-4",
+              "clause_text": "hiding usage data from team leads",
+              "axis": "prohibited_business_model",
+              "violation_reason": "Theme content matches forbidden clause \"hiding usage data from team leads\" (matched: data, team)"
+            }
+          ],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-005",
+              "raw_text": "I want my team to collaborate in real-time. Async is too slow for us. We need everyone seeing the same board, same data, same decisions, live.",
+              "relevance": "desire signal (major, confidence: 0.85)"
+            },
+            {
+              "observation_id": "obs-012",
+              "raw_text": "Feature: team_dashboard — 92% of teams with 3+ members use it daily. Correlates with 2.3x higher expansion revenue. Top request: 'make the kill/defer reasons visible to the whole team'.",
+              "relevance": "adoption signal (major, confidence: 0.93)"
+            },
+            {
+              "observation_id": "obs-014",
+              "raw_text": "Feature: real_time_collab — 88% adoption in teams >5 people. Average session overlap: 3.2 concurrent users. But solo founders never use it (0% adoption for team_size=1).",
+              "relevance": "adoption signal (minor, confidence: 0.87)"
+            },
+            {
+              "observation_id": "obs-020",
+              "raw_text": "Great for solo use but terrible for teams. Can't share a board, can't see what others decided. We need team visibility.",
+              "relevance": "desire signal (major, confidence: 0.83)"
+            },
+            {
+              "observation_id": "obs-036",
+              "raw_text": "Tried to use this for my team of 8. The lack of role-based access is a non-starter. I can't have junior PMs overriding kill decisions made by the Head of Product.",
+              "relevance": "pain signal (major, confidence: 0.82)"
+            }
+          ],
+          "kill_reason": "Violates 4 constitutional clause(s): slow enterprise sales cycles, per-seat pricing that blocks adoption; transparency over privacy; team activity is visible by default; analytics-first; features that require admin approval to use; hiding usage data from team leads"
+        },
+        {
+          "id": "decision-theme-006",
+          "theme_id": "theme-006",
+          "theme_label": "Builder Handoff & Execution Pipeline",
+          "verdict": "defer",
+          "confidence": 0.53,
+          "feature_outline_summary": "[DEFER] Builder Handoff & Execution Pipeline: Decisions alone are insufficient. Build candidates must flow into execution packets with UI/data/workflow specs and coding agent task breakdowns. Users want Cursor/Linear integration.. Revisit when more evidence supports prioritization.",
+          "violated_clauses": [],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-025",
+              "raw_text": "How do I integrate with Cursor? I want to pipe your execution packets directly into my coding agent. Is there an API?",
+              "relevance": "desire signal (major, confidence: 0.84)"
+            },
+            {
+              "observation_id": "obs-034",
+              "raw_text": "Feature: export_to_linear — 67% of execution_packet viewers click 'export to Linear/Jira'. But only 12% complete the export. Blocker: authentication flow for external tools.",
+              "relevance": "adoption signal (minor, confidence: 0.84)"
+            },
+            {
+              "observation_id": "obs-040",
+              "raw_text": "The execution packet is great but it's too abstract. 'Improve onboarding flow' — how? I need specific UI mockup descriptions, not generic directions.",
+              "relevance": "pain signal (major, confidence: 0.85)"
+            },
+            {
+              "observation_id": "obs-048",
+              "raw_text": "This replaced our quarterly planning. We used to spend 2 weeks in meetings deciding what to build. Now it takes 2 hours with BONSAI and the decisions are better because they're evidence-based.",
+              "relevance": "praise signal (neutral, confidence: 0.91)"
+            }
+          ],
+          "defer_reason": "No strong constitutional alignment found and urgency is medium. Evidence is insufficient to prioritize."
+        },
+        {
+          "id": "decision-theme-007",
+          "theme_id": "theme-007",
+          "theme_label": "Constitution Usability & Trust",
+          "verdict": "defer",
+          "confidence": 0.5439999999999999,
+          "feature_outline_summary": "[DEFER] Constitution Usability & Trust: Constitution is the core differentiator but also the biggest onboarding barrier. Writing 3 lines takes 45 min. Normalization errors destroy trust. Parser accuracy is existential.. Revisit when more evidence supports prioritization.",
+          "violated_clauses": [],
+          "supporting_evidence": [
+            {
+              "observation_id": "obs-013",
+              "raw_text": "Onboarding funnel: signup (100%) → constitution_input (68%) → first_pipeline_run (41%) → evidence_drilldown (22%) → execution_packet (9%). Biggest drop: constitution_input → first_pipeline_run.",
+              "relevance": "retention_risk signal (critical, confidence: 0.95)"
+            },
+            {
+              "observation_id": "obs-027",
+              "raw_text": "The kill reasoning said 'violates prohibited_business_model' but my constitution says 'we never compromise on quality'. That's not a business model violation. The clause mapping is wrong.",
+              "relevance": "pain signal (critical, confidence: 0.93)"
+            },
+            {
+              "observation_id": "obs-028",
+              "raw_text": "I changed my constitution and re-ran the pipeline but 3 out of 5 results were identical. I expected everything to change. Is it actually using my constitution?",
+              "relevance": "pain signal (critical, confidence: 0.91)"
+            },
+            {
+              "observation_id": "obs-038",
+              "raw_text": "Constitution concept is cool but writing 'We are / We never / We value' took me 45 minutes. By then I was frustrated and didn't finish onboarding.",
+              "relevance": "pain signal (major, confidence: 0.86)"
+            },
+            {
+              "observation_id": "obs-047",
+              "raw_text": "I tried explaining the 'constitution' concept to my team and they looked at me like I was crazy. The naming is too academic. Just call it 'product policy' or 'team principles'.",
+              "relevance": "pain signal (minor, confidence: 0.79)"
+            }
+          ],
+          "defer_reason": "Insufficient evidence to decide. 5 observations evaluated, no strong constitutional signal."
+        }
+      ],
+      "summary": {
+        "build_count": 0,
+        "defer_count": 2,
+        "kill_count": 5
+      }
+    }
+  ],
+  "diffs": [
+    {
+      "theme_id": "theme-002",
+      "theme_label": "Judgment Bottleneck at Scale",
+      "verdict_a": "build",
+      "verdict_b": "kill"
+    },
+    {
+      "theme_id": "theme-003",
+      "theme_label": "Kill Decision Accountability",
+      "verdict_a": "defer",
+      "verdict_b": "kill"
+    }
+  ],
+  "meta": {
+    "constitution_count": 2,
+    "observation_count": 50,
+    "theme_count": 7
+  }
+}
