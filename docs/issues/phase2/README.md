@@ -33,3 +33,6 @@ Phase1 で出した build / kill 判断を、artifact として残り、共有�
 
 ### Stretch (Phase2.5)
 - `04_experience_actuation_stretch.md`
+
+### 実装状況
+- `IMPLEMENTATION_STATUS.md` — 依存関係、既存資産マッピング、未確定事項一覧
