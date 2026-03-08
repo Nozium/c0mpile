@@ -1,0 +1,22 @@
+run_log=ccw_fake_send_check
+created_at=2026-03-08T13:12:55+0900
+repo_root=/Users/nozuekaoru/nozium/codes/c0mpile
+phases=phase1
+send=1
+print=0
+
+phase=phase1 prompt_file=/tmp/run_ccw.phase1.prompt.txt
+
+===== PHASE phase1 START 2026-03-08T13:12:55+0900 =====
+prompt_file=/tmp/run_ccw.phase1.prompt.txt
+
+===== PHASE phase1 RAW OUTPUT =====
+^Dremote tasks created
+task-1 branch origin/ccw/phase1-task-1
+task-2 branch refs/heads/ccw/phase1-task-2
+
+===== PHASE phase1 END status=0 2026-03-08T13:12:57+0900 =====
+===== HARVEST_BRANCHES phase1 =====
+origin/ccw/phase1-task-1
+refs/heads/ccw/phase1-task-2
+===== END HARVEST_BRANCHES phase1 =====

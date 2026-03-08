@@ -1,0 +1,81 @@
+{
+  "themes": [
+    {
+      "id": "theme-001",
+      "label": "Data Sovereignty & Offline-First",
+      "description": "Users demand local data storage, offline access, and full data portability. Connectivity dependency is a churn trigger, not a feature gap.",
+      "anti_theme": "Cloud-native real-time sync as default; local storage as optional add-on",
+      "observation_ids": ["obs-001", "obs-007", "obs-009", "obs-016", "obs-021", "obs-023"],
+      "evidence_count": 6,
+      "urgency": "high",
+      "affected_state_clusters": ["privacy-conscious-workers", "frequent-travelers", "data-sovereign-teams"],
+      "predicted_transition": "cloud-dependent → data-sovereign"
+    },
+    {
+      "id": "theme-002",
+      "label": "Judgment Bottleneck at Scale",
+      "description": "AI-accelerated production has created a decision backlog. Teams with 15+ candidates cannot allocate resources effectively using spreadsheets and intuition.",
+      "anti_theme": "Build speed is still the bottleneck; teams need faster prototyping, not better filtering",
+      "observation_ids": ["obs-002", "obs-004", "obs-031", "obs-042", "obs-008"],
+      "evidence_count": 5,
+      "urgency": "high",
+      "affected_state_clusters": ["ai-native-builders", "growth-pm-teams", "overproducing-founders"],
+      "predicted_transition": "overproduction-paralysis → focused-allocation"
+    },
+    {
+      "id": "theme-003",
+      "label": "Kill Decision Accountability",
+      "description": "PMs need evidence-based kill justification to survive executive scrutiny. 'Gut feeling' is politically indefensible; clause-level reasoning provides organizational cover.",
+      "anti_theme": "Kill decisions are intuitive and fast; formal reasoning slows teams down",
+      "observation_ids": ["obs-006", "obs-032", "obs-003", "obs-037", "obs-043"],
+      "evidence_count": 5,
+      "urgency": "high",
+      "affected_state_clusters": ["mid-level-pms", "director-level-pms", "enterprise-pm-teams"],
+      "predicted_transition": "political-prioritization → evidence-based-allocation"
+    },
+    {
+      "id": "theme-004",
+      "label": "Anti-Engagement: Focus Over Noise",
+      "description": "Engagement-maximizing patterns (notifications, social feeds, gamification, unsolicited AI) are anti-correlated with retention in the focus-oriented segment. These features actively harm the product.",
+      "anti_theme": "Engagement features drive retention and monetization; passive users churn",
+      "observation_ids": ["obs-010", "obs-011", "obs-019", "obs-022", "obs-033", "obs-035"],
+      "evidence_count": 6,
+      "urgency": "medium",
+      "affected_state_clusters": ["deep-focus-users", "privacy-conscious-workers", "notification-fatigued"],
+      "predicted_transition": "engagement-bombarded → distraction-free"
+    },
+    {
+      "id": "theme-005",
+      "label": "Team Collaboration & Shared Decisions",
+      "description": "Multi-PM teams need shared visibility into build/kill decisions. Solo features don't scale. Real-time collaboration and role-based access are required for teams >3.",
+      "anti_theme": "Product decisions are individual; each PM maintains their own view and prioritization",
+      "observation_ids": ["obs-005", "obs-012", "obs-014", "obs-020", "obs-036"],
+      "evidence_count": 5,
+      "urgency": "medium",
+      "affected_state_clusters": ["growth-pm-teams", "multi-pm-orgs", "cross-functional-teams"],
+      "predicted_transition": "siloed-decisions → shared-judgment-framework"
+    },
+    {
+      "id": "theme-006",
+      "label": "Builder Handoff & Execution Pipeline",
+      "description": "Decisions alone are insufficient. Build candidates must flow into execution packets with UI/data/workflow specs and coding agent task breakdowns. Users want Cursor/Linear integration.",
+      "anti_theme": "Judgment tools should stop at the decision; execution is a separate tool's job",
+      "observation_ids": ["obs-025", "obs-034", "obs-040", "obs-048"],
+      "evidence_count": 4,
+      "urgency": "medium",
+      "affected_state_clusters": ["builder-teams", "ai-native-builders", "pm-eng-bridge"],
+      "predicted_transition": "judgment-only → judgment-to-execution"
+    },
+    {
+      "id": "theme-007",
+      "label": "Constitution Usability & Trust",
+      "description": "Constitution is the core differentiator but also the biggest onboarding barrier. Writing 3 lines takes 45 min. Normalization errors destroy trust. Parser accuracy is existential.",
+      "anti_theme": "Constitution is easy and intuitive; users naturally express their product policy in 3 lines",
+      "observation_ids": ["obs-013", "obs-027", "obs-028", "obs-038", "obs-047"],
+      "evidence_count": 5,
+      "urgency": "high",
+      "affected_state_clusters": ["first-time-users", "non-founder-pms", "skeptical-evaluators"],
+      "predicted_transition": "confused-by-constitution → confident-in-policy"
+    }
+  ]
+}

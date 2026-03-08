@@ -1,0 +1,8 @@
+run_log=ccw_dryrun_check
+created_at=2026-03-08T13:11:08+0900
+repo_root=/Users/nozuekaoru/nozium/codes/c0mpile
+phases=phase1
+send=0
+print=0
+
+phase=phase1 prompt_file=/tmp/run_ccw.phase1.prompt.txt

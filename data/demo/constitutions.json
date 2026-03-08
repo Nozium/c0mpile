@@ -1,0 +1,62 @@
+{
+  "constitutions": [
+    {
+      "id": "const-a",
+      "label": "Constitution A: Privacy-First Productivity",
+      "raw_input": {
+        "we_are": "a privacy-first productivity tool for knowledge workers who value deep focus",
+        "we_never": "sell user data, show ads, or use dark patterns to increase engagement",
+        "we_value": "simplicity over feature count, user trust over growth metrics, offline-first over cloud-dependency"
+      },
+      "axes": {
+        "target_user": "privacy-conscious knowledge workers who prioritize deep focus and data ownership",
+        "prohibited_business_model": "data monetization, advertising, engagement-maximizing dark patterns",
+        "quality_bar": "simplicity and minimalism; fewer features done well over feature bloat",
+        "strategic_terrain": "offline-first productivity; local data storage with optional sync",
+        "trust_compliance_rule": "zero telemetry by default; explicit opt-in for any data sharing; GDPR-first"
+      },
+      "desired_transitions": [
+        "distracted → focused",
+        "cloud-dependent → data-sovereign",
+        "tool-switching → single-pane-of-glass",
+        "anxious-about-privacy → confident-in-control"
+      ],
+      "forbidden_patterns": [
+        "notification spam to drive engagement",
+        "freemium with data harvesting",
+        "social features that expose user activity",
+        "cloud-only storage with no local option",
+        "A/B testing that degrades user experience"
+      ]
+    },
+    {
+      "id": "const-b",
+      "label": "Constitution B: Growth-First Collaboration",
+      "raw_input": {
+        "we_are": "a data-driven collaboration platform for fast-moving startup teams",
+        "we_never": "sacrifice speed for perfection, or block users from experimenting",
+        "we_value": "rapid iteration over polish, team visibility over individual privacy, growth metrics over aesthetic"
+      },
+      "axes": {
+        "target_user": "startup teams (5-50 people) that ship fast and iterate weekly",
+        "prohibited_business_model": "slow enterprise sales cycles, per-seat pricing that blocks adoption",
+        "quality_bar": "speed of iteration; ship daily, polish monthly",
+        "strategic_terrain": "cloud-native real-time collaboration; always-online, always-synced",
+        "trust_compliance_rule": "transparency over privacy; team activity is visible by default; analytics-first"
+      },
+      "desired_transitions": [
+        "siloed → collaborative",
+        "slow-release → continuous-deployment",
+        "opinion-driven → data-driven",
+        "manual-handoff → automated-workflow"
+      ],
+      "forbidden_patterns": [
+        "waterfall release cycles",
+        "features that require admin approval to use",
+        "offline-only workflows",
+        "pricing that penalizes team growth",
+        "hiding usage data from team leads"
+      ]
+    }
+  ]
+}
