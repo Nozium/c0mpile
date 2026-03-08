@@ -1,6 +1,8 @@
 "use client";
 
 import type { Decision } from "@/lib/schema";
+import { CardActionBar } from "./CardActionBar";
+import type { CardAction } from "./card-actions";
 
 const verdictStyles = {
   build: { bg: "bg-emerald-50", border: "border-emerald-400", badge: "bg-emerald-600", label: "BUILD" },
@@ -12,10 +14,12 @@ export function DecisionCard({
   decision,
   compareVerdict,
   onDrillDown,
+  onAction,
 }: {
   decision: Decision;
   compareVerdict?: string;
   onDrillDown?: (decision: Decision) => void;
+  onAction?: (action: CardAction, decision: Decision) => void;
 }) {
   const style = verdictStyles[decision.verdict];
   const changed = compareVerdict && compareVerdict !== decision.verdict;
@@ -95,6 +99,9 @@ export function DecisionCard({
           )}
         </div>
       </div>
+
+      {/* Actions: primary CTA + More dropdown */}
+      <CardActionBar decision={decision} onAction={onAction} />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { AllocationRun, Decision } from "@/lib/schema";
 import { DecisionCard } from "./DecisionCard";
 import { EvidencePanel } from "./EvidencePanel";
+import { buildIssueBody, type CardAction } from "./card-actions";
 
 export function AllocationBoard({
   run,
@@ -15,6 +16,41 @@ export function AllocationBoard({
   diffs?: { theme_id: string; verdict_a: string; verdict_b: string }[];
 }) {
   const [selectedDecision, setSelectedDecision] = useState<Decision | null>(null);
+  const [actionToast, setActionToast] = useState<string | null>(null);
+
+  const handleAction = (action: CardAction, decision: Decision) => {
+    const body = buildIssueBody(decision);
+
+    switch (action) {
+      case "send_rork":
+        // Phase2: Rork API integration
+        setActionToast(`Rork: ${decision.theme_label} (not connected yet)`);
+        break;
+      case "add_github_issue":
+      case "add_linear_issue": {
+        const label = action === "add_github_issue" ? "GitHub Issue" : "Linear";
+        navigator.clipboard.writeText(body);
+        setActionToast(`${label} body copied to clipboard: ${decision.theme_label}`);
+        break;
+      }
+      case "create_salvage_proposal":
+        navigator.clipboard.writeText(
+          `Salvage Proposal: ${decision.theme_label}\n\n${body}`
+        );
+        setActionToast(`Salvage proposal copied: ${decision.theme_label}`);
+        break;
+      case "request_more_evidence":
+        setActionToast(`More evidence requested: ${decision.theme_label}`);
+        break;
+      case "override_decision":
+        setActionToast(`Override: ${decision.theme_label} (not implemented)`);
+        break;
+      default:
+        break;
+    }
+
+    setTimeout(() => setActionToast(null), 3000);
+  };
 
   const buildDecisions = run.decisions.filter((d) => d.verdict === "build");
   const deferDecisions = run.decisions.filter((d) => d.verdict === "defer");
@@ -55,6 +91,7 @@ export function AllocationBoard({
                 decision={d}
                 compareVerdict={diffMap.get(d.theme_id)}
                 onDrillDown={setSelectedDecision}
+                onAction={handleAction}
               />
             ))}
             {buildDecisions.length === 0 && (
@@ -78,6 +115,7 @@ export function AllocationBoard({
                 decision={d}
                 compareVerdict={diffMap.get(d.theme_id)}
                 onDrillDown={setSelectedDecision}
+                onAction={handleAction}
               />
             ))}
             {deferDecisions.map((d) => (
@@ -86,6 +124,7 @@ export function AllocationBoard({
                 decision={d}
                 compareVerdict={diffMap.get(d.theme_id)}
                 onDrillDown={setSelectedDecision}
+                onAction={handleAction}
               />
             ))}
             {killDecisions.length + deferDecisions.length === 0 && (
@@ -103,6 +142,13 @@ export function AllocationBoard({
           decision={selectedDecision}
           onClose={() => setSelectedDecision(null)}
         />
+      )}
+
+      {/* Action toast */}
+      {actionToast && (
+        <div className="fixed bottom-6 right-6 bg-gray-900 text-white text-xs px-4 py-3 rounded-lg shadow-lg z-50 max-w-sm">
+          {actionToast}
+        </div>
       )}
     </div>
   );
