@@ -17,15 +17,15 @@ export type DecisionActionConfig = {
 export const defaultActions: Record<Decision["verdict"], DecisionActionConfig> = {
   build: {
     primary: "send_rork",
-    secondary: ["add_linear_issue", "add_github_issue", "copy_rationale"],
+    secondary: ["add_linear_issue", "add_github_issue", "override_decision", "copy_rationale"],
   },
   defer: {
     primary: "add_linear_issue",
-    secondary: ["add_github_issue", "request_more_evidence", "send_rork", "copy_rationale"],
+    secondary: ["add_github_issue", "request_more_evidence", "override_decision", "send_rork", "copy_rationale"],
   },
   kill: {
     primary: "add_github_issue",
-    secondary: ["add_linear_issue", "create_salvage_proposal", "copy_rationale"],
+    secondary: ["add_linear_issue", "create_salvage_proposal", "override_decision", "copy_rationale"],
   },
 };
 

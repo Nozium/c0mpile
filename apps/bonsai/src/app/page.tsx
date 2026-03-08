@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import type { AllocationRun, Constitution } from "@/lib/schema";
+import type { AllocationRun, Constitution, Proposal, ExecutionPacket } from "@/lib/schema";
 import { AllocationBoard } from "@/features/phase1/boards/AllocationBoard";
 import { ConstitutionInput } from "@/features/phase1/constitution/ConstitutionInput";
 
@@ -19,11 +19,28 @@ export default function Home() {
   >([]);
   const [loading, setLoading] = useState(false);
 
+  // Phase2: proposals and execution packets
+  const [proposals, setProposals] = useState<Proposal[]>([]);
+  const [executionPackets, setExecutionPackets] = useState<ExecutionPacket[]>([]);
+
   // Load constitutions on mount
   useEffect(() => {
     fetch("/api/constitutions")
       .then((r) => r.json())
       .then(setConstitutions)
+      .catch(console.error);
+  }, []);
+
+  // Load proposals and execution packets on mount
+  useEffect(() => {
+    fetch("/api/proposals")
+      .then((r) => r.json())
+      .then((data) => setProposals(data.proposals ?? []))
+      .catch(console.error);
+
+    fetch("/api/execution-packets")
+      .then((r) => r.json())
+      .then((data) => setExecutionPackets(data.execution_packets ?? []))
       .catch(console.error);
   }, []);
 
@@ -70,6 +87,27 @@ export default function Home() {
       runAllocation();
     }
   }, [constitutions, runAllocation]);
+
+  // Phase2: Handle override — update the run in-place
+  const handleOverride = (decisionId: string, newVerdict: "build" | "defer" | "kill", reason: string) => {
+    if (!run) return;
+    const updatedDecisions = run.decisions.map((d) => {
+      if (d.id !== decisionId) return d;
+      return {
+        ...d,
+        verdict: newVerdict,
+        kill_reason: newVerdict === "kill" ? `Overridden: ${reason}` : d.kill_reason,
+        defer_reason: newVerdict === "defer" ? `Overridden: ${reason}` : d.defer_reason,
+        build_rationale: newVerdict === "build" ? `Overridden: ${reason}` : d.build_rationale,
+      };
+    });
+    const summary = {
+      build_count: updatedDecisions.filter((d) => d.verdict === "build").length,
+      defer_count: updatedDecisions.filter((d) => d.verdict === "defer").length,
+      kill_count: updatedDecisions.filter((d) => d.verdict === "kill").length,
+    };
+    setRun({ ...run, decisions: updatedDecisions, summary });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -145,7 +183,14 @@ export default function Home() {
             <div className="text-xs text-gray-400 mb-2">
               {run.constitution_label} | {run.timestamp}
             </div>
-            <AllocationBoard run={run} compareRun={compareRun ?? undefined} diffs={diffs} />
+            <AllocationBoard
+              run={run}
+              compareRun={compareRun ?? undefined}
+              diffs={diffs}
+              proposals={proposals}
+              executionPackets={executionPackets}
+              onOverride={handleOverride}
+            />
           </div>
         )}
       </main>
