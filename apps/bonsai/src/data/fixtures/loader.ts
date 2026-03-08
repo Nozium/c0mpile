@@ -6,8 +6,10 @@ import {
   ConstitutionRawInputSchema,
   ObservationSchema,
   ThemeSchema,
+  ProposalSchema,
+  ExecutionPacketSchema,
 } from "@/lib/schema";
-import type { Constitution, Observation, Theme, Clause } from "@/lib/schema";
+import type { Constitution, Observation, Theme, Clause, Proposal, ExecutionPacket } from "@/lib/schema";
 
 const DATA_DIR = resolve(process.cwd(), "../../data/demo");
 
@@ -90,4 +92,22 @@ export function loadThemes(): Theme[] {
 
 export function loadConstitutionById(id: string): Constitution | undefined {
   return loadConstitutions().find((c) => c.id === id);
+}
+
+export function loadProposals(): Proposal[] {
+  const raw = JSON.parse(readFileSync(resolve(DATA_DIR, "proposals.json"), "utf-8"));
+  return z.array(ProposalSchema).parse(raw.proposals);
+}
+
+export function loadProposalById(id: string): Proposal | undefined {
+  return loadProposals().find((p) => p.id === id);
+}
+
+export function loadExecutionPackets(): ExecutionPacket[] {
+  const raw = JSON.parse(readFileSync(resolve(DATA_DIR, "execution-packets.json"), "utf-8"));
+  return z.array(ExecutionPacketSchema).parse(raw.execution_packets);
+}
+
+export function loadExecutionPacketByProposalId(proposalId: string): ExecutionPacket | undefined {
+  return loadExecutionPackets().find((ep) => ep.proposal_id === proposalId);
 }

@@ -13,12 +13,18 @@ const verdictStyles = {
 export function DecisionCard({
   decision,
   compareVerdict,
+  hasPacket,
   onDrillDown,
+  onViewPacket,
+  onCodingExport,
   onAction,
 }: {
   decision: Decision;
   compareVerdict?: string;
+  hasPacket?: boolean;
   onDrillDown?: (decision: Decision) => void;
+  onViewPacket?: (decision: Decision) => void;
+  onCodingExport?: (decision: Decision) => void;
   onAction?: (action: CardAction, decision: Decision) => void;
 }) {
   const style = verdictStyles[decision.verdict];
@@ -94,11 +100,33 @@ export function DecisionCard({
               onClick={() => onDrillDown(decision)}
               className="text-xs text-blue-600 hover:text-blue-800 underline"
             >
-              evidence
+              detail
             </button>
           )}
         </div>
       </div>
+
+      {/* Phase2: Execution packet / coding export links for build cards */}
+      {hasPacket && (
+        <div className="flex items-center gap-3 mt-2 pt-2 border-t border-gray-200">
+          {onViewPacket && (
+            <button
+              onClick={() => onViewPacket(decision)}
+              className="text-xs text-purple-600 hover:text-purple-800 underline"
+            >
+              Execution Packet
+            </button>
+          )}
+          {onCodingExport && (
+            <button
+              onClick={() => onCodingExport(decision)}
+              className="text-xs text-indigo-600 hover:text-indigo-800 underline"
+            >
+              Agent Export
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Actions: primary CTA + More dropdown */}
       <CardActionBar decision={decision} onAction={onAction} />
