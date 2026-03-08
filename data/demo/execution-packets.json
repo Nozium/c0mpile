@@ -1,0 +1,125 @@
+{
+  "_note": "Pre-computed execution packets for build proposals. These are shown in Demo Step 5.",
+  "execution_packets": [
+    {
+      "id": "ep-001",
+      "proposal_id": "prop-001",
+      "problem_statement": "Users churn immediately when the app requires internet. D30 retention is 45% for cloud-only users vs 85% for offline-enabled users. Offline access is the #1 retention blocker.",
+      "target_user_state": "privacy-conscious knowledge workers who travel frequently or work in low-connectivity environments",
+      "intended_transition": "cloud-dependent → data-sovereign: users move from anxiety about data accessibility to confidence that their data is always available on-device",
+      "why_now": "Retention cliff is the biggest growth blocker. Every day without offline-first, we lose 40% more users than we should. Usage data confirms this is not a feature request — it's a survival requirement.",
+      "supporting_evidence_summary": "6 converging signals: customer interviews confirm data ownership as hard requirement (obs-001, obs-007), usage data shows 78% offline adoption and 2x retention gap (obs-009), app store reviews show immediate churn without offline (obs-016), and paying users cite local data as purchasing trigger (obs-021).",
+      "ui_change_outline": "1. Add 'Data Location' indicator in header bar showing 'On Device' / 'Syncing' / 'Cloud' status. 2. Add Settings > Storage section with toggle: 'Store all data locally (recommended)' defaulting to ON. 3. Add export dialog with 'Full Export (including metadata, tags, folder structure)' option. 4. Show 'Available Offline' badge on each document/board. 5. Remove any 'connecting...' spinner that blocks UI — app should work immediately from local cache.",
+      "data_model_change_outline": "1. Add `storage_mode: 'local' | 'local_with_sync' | 'cloud'` to user preferences (default: 'local'). 2. Add `local_cache_version: number` to all entities for offline conflict detection. 3. Add `export_metadata` field to export schema including tags, folder paths, and relationships. 4. Ensure all Zod schemas include `offline_available: boolean` field. 5. Add `sync_status: 'synced' | 'pending' | 'conflict' | 'local_only'` to each entity.",
+      "workflow_change_outline": "1. App loads from local IndexedDB/SQLite before any network call. 2. Network requests are queued and executed when connectivity returns. 3. Conflict resolution: last-write-wins with manual merge option for conflicts. 4. Export flow: Settings > Export > Select format (JSON/CSV/Markdown) > Include metadata checkbox > Download. 5. First-run experience emphasizes 'Your data stays on your device' messaging.",
+      "success_metric": "D30 retention for new users reaches 75% (up from 45% for cloud-only). Export completion rate > 90%. Zero 'data not available' support tickets.",
+      "experiment_plan": "1. Ship offline storage for read-only access first (2-day build). 2. Measure D7 retention for offline-enabled cohort vs control. 3. If D7 retention improves by >15%, proceed to full offline-first with write support. 4. Ship full metadata export in parallel as a trust signal.",
+      "coding_agent_tasks": [
+        {
+          "task_id": "ep-001-t1",
+          "title": "Implement IndexedDB local storage layer",
+          "description": "Create a storage abstraction that saves all entities (constitutions, observations, proposals) to IndexedDB. App should boot from IndexedDB without network. Use Dexie.js for IndexedDB wrapper. Schema mirrors Zod types from bonsai_claude.md data model.",
+          "type": "frontend",
+          "effort": "medium",
+          "dependencies": []
+        },
+        {
+          "task_id": "ep-001-t2",
+          "title": "Add offline-first data loading to all pages",
+          "description": "Modify data fetching hooks to load from IndexedDB first, then sync with server in background. Show 'On Device' indicator in header. Never show loading spinner if local data exists.",
+          "type": "frontend",
+          "effort": "medium",
+          "dependencies": ["ep-001-t1"]
+        },
+        {
+          "task_id": "ep-001-t3",
+          "title": "Build full metadata export",
+          "description": "Add Settings > Export page. Support JSON and CSV formats. Include all metadata: tags, folder structure, relationships, timestamps. Add progress bar for large exports. Test with 1000+ documents.",
+          "type": "frontend",
+          "effort": "small",
+          "dependencies": ["ep-001-t1"]
+        },
+        {
+          "task_id": "ep-001-t4",
+          "title": "Add sync_status tracking",
+          "description": "Add sync_status field to all entities in the data model. Track 'synced', 'pending', 'conflict', 'local_only' states. Show sync status in UI with subtle indicators (green dot = synced, yellow = pending, red = conflict).",
+          "type": "data",
+          "effort": "small",
+          "dependencies": ["ep-001-t1"]
+        },
+        {
+          "task_id": "ep-001-t5",
+          "title": "Write offline-first integration tests",
+          "description": "Test scenarios: 1) App boots without network and shows all data. 2) Data created offline syncs when network returns. 3) Export includes all metadata. 4) Conflict detection works for simultaneous edits. Use Playwright with network throttling.",
+          "type": "test",
+          "effort": "medium",
+          "dependencies": ["ep-001-t2", "ep-001-t3", "ep-001-t4"]
+        }
+      ]
+    },
+    {
+      "id": "ep-002",
+      "proposal_id": "prop-002",
+      "problem_statement": "PMs spend 1+ week per quarter on 'prioritization theater' — meetings to decide what to build/kill without shared evidence or framework. Kill decisions are avoided because they can't be justified beyond gut feeling.",
+      "target_user_state": "PM teams (3-10 people) with 15+ active candidates where kill decisions are politically charged and lack evidence-based justification",
+      "intended_transition": "political-prioritization → evidence-based-allocation: teams move from opinion-based debates to clause-level reasoning backed by customer evidence",
+      "why_now": "AI coding tools have increased candidate count from ~10 to ~30+ per team per quarter. The old spreadsheet + gut feeling method breaks at this scale. Multiple PMs have expressed $200/mo willingness to pay specifically for this.",
+      "supporting_evidence_summary": "5 converging signals: senior PM needs evidence for executive defense (obs-006, obs-032), director willing to pay $200/mo for evidence-based kills (obs-008), evidence trail drill-down cited as subscription-worthy feature (obs-043), kill board praised as category-defining (obs-037).",
+      "ui_change_outline": "1. Kill/Defer Board: each card shows violated_clauses as colored badges, kill_type label, confidence score, and evidence_count. 2. Evidence Drill-down drawer: click a kill card → see pre_mortem, build_if/kill_because counterfactual, violated clause text, and scrollable list of supporting observations with raw quotes. 3. Each observation quote is clickable to see full context (source, actor, timestamp). 4. 'Share Kill Reasoning' button generates a shareable summary (copy to clipboard or export as PDF) for stakeholder communication. 5. Override button on every kill card: 'I disagree — override to Build' with required reason text field.",
+      "data_model_change_outline": "1. Ensure ProposalSchema includes all kill-related fields: violated_clauses, kill_type, kill_because, salvage_path, pre_mortem. 2. Add DecisionLogSchema with override tracking (overridden, original_decision, override_reason). 3. Add shareable_summary field to Proposal for export/sharing. 4. Index proposals by decision type for fast Kill Board queries.",
+      "workflow_change_outline": "1. Pipeline run → proposals generated → Kill/Defer board auto-populated. 2. PM reviews kill cards one by one, drilling into evidence. 3. For each kill: Accept (log decision), Override (provide reason, flip to build), or Defer (need more evidence). 4. Accepted kills are logged with clause_reasons and evidence_refs. 5. 'Share Kill Reasoning' exports a structured summary for Slack/email to stakeholders. 6. Weekly digest includes 'Decisions made this week' with kill count and top reasons.",
+      "success_metric": "Users can make and justify a kill decision within a single 10-minute session. Kill decisions include average 3+ evidence citations. Override rate < 30% (indicating kill accuracy is high).",
+      "experiment_plan": "1. Ship Kill Board with evidence drill-down (3-day build). 2. Run 5 pilot sessions with PMs who have 15+ candidates. 3. Measure: time to kill decision, number of evidence citations viewed, satisfaction score. 4. If 3/5 PMs say 'I could show this to my CEO', proceed to sharing/export features.",
+      "coding_agent_tasks": [
+        {
+          "task_id": "ep-002-t1",
+          "title": "Build Kill/Defer Board UI",
+          "description": "Create the Kill/Defer tab in the Allocation Board. Display kill and defer proposals in a card grid sorted by confidence desc. Each card shows: title, decision badge (KILL in red / DEFER in yellow), kill_type, violated_clauses as colored badges, evidence_count, confidence bar. Use shadcn/ui Card + Badge components.",
+          "type": "frontend",
+          "effort": "medium",
+          "dependencies": []
+        },
+        {
+          "task_id": "ep-002-t2",
+          "title": "Build Evidence Drill-down drawer",
+          "description": "Create a slide-out drawer (shadcn/ui Sheet) that opens when clicking a proposal card. Sections: 1) Pre-mortem (death_cause, early_signals, untested_hypotheses). 2) Counterfactual (build_if vs kill_because side-by-side). 3) Violated clauses with clause text highlighted. 4) Evidence trail: scrollable list of observations with raw_text, extracted_intent vs inferred_need, source badge, timestamp. Each observation is expandable.",
+          "type": "frontend",
+          "effort": "medium",
+          "dependencies": ["ep-002-t1"]
+        },
+        {
+          "task_id": "ep-002-t3",
+          "title": "Implement decision override flow",
+          "description": "Add 'Override' button to kill cards. On click, show a dialog: 'Override to Build? Provide reason:' with a required textarea. On confirm, log the override to DecisionLogSchema and move the proposal to Build Next board. Show a toast: 'Decision overridden. Reason logged.'",
+          "type": "frontend",
+          "effort": "small",
+          "dependencies": ["ep-002-t1"]
+        },
+        {
+          "task_id": "ep-002-t4",
+          "title": "Build share/export for kill reasoning",
+          "description": "Add 'Share Kill Reasoning' button to the evidence drill-down. Generates a structured text summary: title, decision, violated clauses, top 3 evidence quotes, pre-mortem summary. Options: copy to clipboard (Markdown), download as PDF. Use html2canvas or react-pdf for PDF generation.",
+          "type": "frontend",
+          "effort": "small",
+          "dependencies": ["ep-002-t2"]
+        },
+        {
+          "task_id": "ep-002-t5",
+          "title": "API: GET /api/kill-board and GET /api/proposals/:id/evidence",
+          "description": "Implement two API routes. GET /api/kill-board returns Proposal[] filtered to kill/defer decisions, sorted by confidence. GET /api/proposals/:id/evidence returns the full evidence drill-down: proposal, theme, observations[], violated_constitution_axes[].",
+          "type": "backend",
+          "effort": "small",
+          "dependencies": []
+        },
+        {
+          "task_id": "ep-002-t6",
+          "title": "Write kill board E2E tests",
+          "description": "Playwright tests: 1) Kill board displays correct proposals. 2) Evidence drill-down shows all sections. 3) Override flow works and updates the board. 4) Share button generates correct Markdown. Test with the pre-shaped demo dataset.",
+          "type": "test",
+          "effort": "small",
+          "dependencies": ["ep-002-t1", "ep-002-t2", "ep-002-t3"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,291 @@
+{
+  "_note": "Pre-computed proposals for Constitution A (Privacy-First Productivity). Constitution B will produce different decisions at Step 3 live.",
+  "proposals": [
+    {
+      "id": "prop-001",
+      "theme_id": "theme-001",
+      "title": "Offline-First Data Vault",
+      "description": "Complete local-first architecture with encrypted offline storage, full metadata export, and optional end-to-end encrypted sync. All data lives on-device by default.",
+      "decision": "build",
+      "build_if": "Target users (privacy-conscious knowledge workers) have explicitly stated offline access as a retention cliff. 78% enable offline mode within week 1. D30 retention gap: 85% vs 45%.",
+      "kill_because": "Would require significant re-architecture if the product is currently cloud-first. But this aligns with every axis of Constitution A.",
+      "violated_clauses": [],
+      "allocation_score": {
+        "constitutional_fit": 0.96,
+        "transition_value": 0.88,
+        "evidence_strength": 0.92,
+        "death_risk": 0.15,
+        "effort_cost": 0.35,
+        "total": 0.78
+      },
+      "evidence_trail": [
+        { "observation_id": "obs-001", "relevance": 0.95, "quote": "I need to own my data. Period." },
+        { "observation_id": "obs-009", "relevance": 0.97, "quote": "78% of active users enable offline mode within first week. Retention: 85% vs 45%." },
+        { "observation_id": "obs-016", "relevance": 0.90, "quote": "The app is useless without internet. Deleted it." },
+        { "observation_id": "obs-021", "relevance": 0.88, "quote": "I love that my data stays on my device. Take my money." },
+        { "observation_id": "obs-007", "relevance": 0.85, "quote": "If it doesn't work offline, I don't use it." }
+      ],
+      "salvage_path": null,
+      "pre_mortem": {
+        "death_cause": "Implementation complexity of offline-first sync with conflict resolution may delay launch by 2+ months",
+        "early_signals": [
+          "Sync conflict bugs in beta",
+          "Engineer pushback on offline-first architecture complexity"
+        ],
+        "untested_hypotheses": [
+          "Users will tolerate occasional sync delays for data sovereignty",
+          "Local encryption doesn't impact performance on low-end devices"
+        ],
+        "mitigation": "Ship offline storage without sync first (read-only offline). Add sync in v2."
+      },
+      "feature_outline": {
+        "feature_name": "Offline-First Data Vault",
+        "target_user": "Privacy-conscious knowledge workers who travel or work in low-connectivity environments",
+        "problem_statement": "Users churn immediately when the app requires internet. 78% adopt offline mode when available, with 2x retention.",
+        "why_this_now": "Retention cliff is the #1 growth blocker. Fixing this removes the biggest churn trigger.",
+        "supporting_feedback": [
+          "obs-001: Data ownership is a hard requirement",
+          "obs-009: 85% vs 45% D30 retention with/without offline",
+          "obs-016: User deleted app due to no offline access"
+        ],
+        "expected_outcome": "D30 retention increases from 45% to 70%+ for currently cloud-only users",
+        "success_metric": "D30 retention for new users reaches 75%"
+      },
+      "confidence": 0.91
+    },
+    {
+      "id": "prop-002",
+      "theme_id": "theme-003",
+      "title": "Evidence-Based Kill Reasoning Engine",
+      "description": "Clause-level kill reasoning with evidence trail drill-down. Each kill decision shows which constitutional clause was violated, with direct observation quotes and pre-mortem diagnosis.",
+      "decision": "build",
+      "build_if": "Core differentiation. Multiple senior PMs have expressed willingness to pay specifically for evidence-backed kill justification ($200/mo signal). This is the BONSAI differentiator.",
+      "kill_because": "Only relevant if the constitution parser is accurate enough (H-4). If clause mapping is wrong, kill reasoning is wrong.",
+      "violated_clauses": [],
+      "allocation_score": {
+        "constitutional_fit": 0.90,
+        "transition_value": 0.92,
+        "evidence_strength": 0.94,
+        "death_risk": 0.20,
+        "effort_cost": 0.25,
+        "total": 0.82
+      },
+      "evidence_trail": [
+        { "observation_id": "obs-006", "relevance": 0.96, "quote": "We need something that helps us explain why we're NOT building something." },
+        { "observation_id": "obs-032", "relevance": 0.95, "quote": "Show me 12 pieces of evidence and 2 constitutional violations. That's what gets me political cover." },
+        { "observation_id": "obs-008", "relevance": 0.90, "quote": "I'd pay $200/month if it could tell me which candidates to kill, with evidence." },
+        { "observation_id": "obs-043", "relevance": 0.92, "quote": "If I can click on a kill decision and see the exact customer quotes, that's worth the subscription alone." },
+        { "observation_id": "obs-037", "relevance": 0.85, "quote": "Never seen another tool that shows you what NOT to build with actual evidence." }
+      ],
+      "salvage_path": null,
+      "pre_mortem": {
+        "death_cause": "Constitution parser accuracy below 70% (H-4 kill trigger), rendering all kill reasoning unreliable",
+        "early_signals": [
+          "obs-027: User reports wrong clause mapping",
+          "obs-028: Constitution change doesn't change results"
+        ],
+        "untested_hypotheses": [
+          "3-line constitution input provides enough signal for accurate 5-axis normalization",
+          "Clause-level reasoning is more persuasive than free-text explanation"
+        ],
+        "mitigation": "Fall back to evidence-based reasoning without clause mapping if parser accuracy is insufficient. Pivot to dialog-based constitution extraction."
+      },
+      "feature_outline": {
+        "feature_name": "Evidence-Based Kill Reasoning Engine",
+        "target_user": "PMs and Heads of Product who need to justify kill/defer decisions to executives and stakeholders",
+        "problem_statement": "Kill decisions are avoided because they're hard to justify. PMs say 'gut feeling' and get overruled. Evidence + clause violations make kills defensible.",
+        "why_this_now": "AI overproduction is creating more candidates to evaluate. The need for systematic kill discipline is increasing week over week.",
+        "supporting_feedback": [
+          "obs-006: Need to explain why we're NOT building something",
+          "obs-032: Evidence trail = political cover for difficult decisions",
+          "obs-008: $200/mo willingness to pay for evidence-based kills"
+        ],
+        "expected_outcome": "Time to make and defend kill decisions drops from 1 week to 10 minutes",
+        "success_metric": "Users can make and justify a kill decision within a single session"
+      },
+      "confidence": 0.89
+    },
+    {
+      "id": "prop-003",
+      "theme_id": "theme-004",
+      "title": "Social Activity Feed",
+      "description": "Real-time activity feed showing team members' actions, comments, and status updates. Includes @mentions, reactions, and activity notifications.",
+      "decision": "kill",
+      "build_if": "Target users wanted social engagement features. But they explicitly don't — 60% disable within 2 weeks, and adoption is only 12%.",
+      "kill_because": "Directly violates Constitution A's prohibited_business_model (engagement-maximizing dark patterns) and quality_bar (simplicity over feature count). Evidence shows negative retention correlation.",
+      "violated_clauses": ["prohibited_business_model", "quality_bar"],
+      "kill_type": "constitutional_violation",
+      "allocation_score": {
+        "constitutional_fit": 0.12,
+        "transition_value": 0.15,
+        "evidence_strength": 0.91,
+        "death_risk": 0.85,
+        "effort_cost": 0.40,
+        "total": -0.22
+      },
+      "evidence_trail": [
+        { "observation_id": "obs-010", "relevance": 0.95, "quote": "Only 12% interact. 60% disable within 2 weeks. Top complaint: 'too noisy'." },
+        { "observation_id": "obs-022", "relevance": 0.90, "quote": "Notification spam killed it. Engagement tricks don't work on people who want focus." },
+        { "observation_id": "obs-018", "relevance": 0.85, "quote": "Don't add more features please." },
+        { "observation_id": "obs-035", "relevance": 0.88, "quote": "Open rate: 8%. Click-through: 2%. Unsubscribe: 12% of MAU." }
+      ],
+      "salvage_path": "Strip to minimal 'decisions made this week' digest (obs-046 shows 45% open rate for weekly summary). Remove all real-time social features.",
+      "pre_mortem": {
+        "death_cause": "Social features attract the wrong user segment (engagement-seeking) while repelling the core segment (focus-seeking). Net negative retention impact.",
+        "early_signals": [
+          "12% adoption, 60% disable rate",
+          "Negative correlation between social feature usage and NPS"
+        ],
+        "untested_hypotheses": [],
+        "mitigation": null
+      },
+      "confidence": 0.93
+    },
+    {
+      "id": "prop-004",
+      "theme_id": "theme-004",
+      "title": "AI Suggestion Panel (Proactive)",
+      "description": "AI-powered contextual suggestions that proactively appear while the user is working. Suggests features, improvements, and actions based on current context.",
+      "decision": "kill",
+      "build_if": "Users wanted unsolicited AI assistance during their workflow. But usage data shows the opposite: retention is higher when the feature is disabled.",
+      "kill_because": "Violates quality_bar (simplicity over feature count) and user trust. 45% initial click-through drops to 8% by day 7. Users who disable it have 14% higher retention. Unsolicited AI breaks deep focus flow.",
+      "violated_clauses": ["quality_bar", "trust_compliance_rule"],
+      "kill_type": "trust_decay",
+      "allocation_score": {
+        "constitutional_fit": 0.25,
+        "transition_value": 0.20,
+        "evidence_strength": 0.89,
+        "death_risk": 0.75,
+        "effort_cost": 0.30,
+        "total": -0.10
+      },
+      "evidence_trail": [
+        { "observation_id": "obs-011", "relevance": 0.95, "quote": "45% click-through drops to 8% by day 7. Users who disable have higher D30 retention (72% vs 58%)." },
+        { "observation_id": "obs-019", "relevance": 0.92, "quote": "The AI features feel forced. I didn't ask for suggestions. It breaks my flow." },
+        { "observation_id": "obs-018", "relevance": 0.80, "quote": "It does one thing — helps me focus — and does it perfectly." }
+      ],
+      "salvage_path": "Convert from proactive push to on-demand pull. User explicitly requests AI analysis. Never interrupt flow.",
+      "pre_mortem": {
+        "death_cause": "Novelty effect masked the negative impact. Short-term engagement metrics looked good while long-term retention suffered.",
+        "early_signals": [
+          "Click-through decay curve (45% → 8% in 7 days)",
+          "Negative retention correlation"
+        ],
+        "untested_hypotheses": [],
+        "mitigation": null
+      },
+      "confidence": 0.90
+    },
+    {
+      "id": "prop-005",
+      "theme_id": "theme-004",
+      "title": "Gamification & Achievement Badges",
+      "description": "Achievement badges, streaks, and progress indicators to increase user engagement and daily active usage.",
+      "decision": "kill",
+      "build_if": "Target users valued gamified engagement. They don't. 5% adoption after 30 days with negative NPS correlation.",
+      "kill_because": "Constitutional misalignment. Gamification is explicitly an engagement-maximizing pattern (forbidden_pattern) and contradicts quality_bar (simplicity). Users who interact with badges have 20% lower NPS.",
+      "violated_clauses": ["prohibited_business_model", "quality_bar"],
+      "kill_type": "constitutional_misalignment",
+      "allocation_score": {
+        "constitutional_fit": 0.08,
+        "transition_value": 0.10,
+        "evidence_strength": 0.90,
+        "death_risk": 0.80,
+        "effort_cost": 0.20,
+        "total": -0.25
+      },
+      "evidence_trail": [
+        { "observation_id": "obs-033", "relevance": 0.95, "quote": "5% adoption after 30 days. Users who interact have 20% lower NPS. Negative correlation with focus_mode." },
+        { "observation_id": "obs-022", "relevance": 0.82, "quote": "Engagement tricks don't work on people who want focus." },
+        { "observation_id": "obs-018", "relevance": 0.78, "quote": "Finally a tool that doesn't try to do everything." }
+      ],
+      "salvage_path": null,
+      "pre_mortem": {
+        "death_cause": "Gamification attracts engagement-seekers while repelling the core focus-oriented segment. Impossible to serve both.",
+        "early_signals": [
+          "5% adoption",
+          "20% lower NPS among badge users",
+          "Negative correlation with focus_mode"
+        ],
+        "untested_hypotheses": [],
+        "mitigation": null
+      },
+      "confidence": 0.94
+    },
+    {
+      "id": "prop-006",
+      "theme_id": "theme-005",
+      "title": "Real-Time Team Collaboration Board",
+      "description": "Live collaborative view of allocation decisions. Multiple PMs can view, discuss, and override build/kill decisions in real-time with role-based permissions.",
+      "decision": "defer",
+      "build_if": "Evidence is strong for teams >5 (88% adoption, 2.3x expansion revenue). But it conflicts with offline-first positioning — real-time requires always-online.",
+      "kill_because": "Partial constitutional conflict. Real-time collaboration requires cloud-first architecture, which conflicts with Constitution A's strategic_terrain (offline-first). However, no hard clause violation — it's a tension, not a prohibition.",
+      "violated_clauses": [],
+      "allocation_score": {
+        "constitutional_fit": 0.55,
+        "transition_value": 0.78,
+        "evidence_strength": 0.85,
+        "death_risk": 0.45,
+        "effort_cost": 0.60,
+        "total": 0.32
+      },
+      "evidence_trail": [
+        { "observation_id": "obs-012", "relevance": 0.90, "quote": "92% of teams with 3+ members use it daily. 2.3x expansion revenue." },
+        { "observation_id": "obs-005", "relevance": 0.85, "quote": "I want my team to collaborate in real-time." },
+        { "observation_id": "obs-020", "relevance": 0.82, "quote": "Great for solo use but terrible for teams." },
+        { "observation_id": "obs-014", "relevance": 0.78, "quote": "88% adoption in teams >5. Solo founders: 0%." }
+      ],
+      "salvage_path": "Implement async collaboration first (shared views, comment threads, decision history). Add real-time sync in v2 with offline-first conflict resolution.",
+      "pre_mortem": {
+        "death_cause": "Architectural tension between offline-first (Constitution A) and always-online collaboration. Choosing one alienates the other segment.",
+        "early_signals": [
+          "Solo founders don't use collab features",
+          "Teams demand real-time but constitution requires offline-first"
+        ],
+        "untested_hypotheses": [
+          "Async collaboration is sufficient for teams <10",
+          "Offline-first teams accept eventual consistency for shared decisions"
+        ],
+        "mitigation": "Offer both modes: offline-first with async sync for privacy segment, real-time for growth segment. Let constitution determine which mode is default."
+      },
+      "confidence": 0.72
+    },
+    {
+      "id": "prop-007",
+      "theme_id": "theme-007",
+      "title": "Guided Constitution Builder",
+      "description": "Interactive dialog that helps users write their constitution through a series of targeted questions instead of blank 3-line input. Includes templates and examples.",
+      "decision": "defer",
+      "build_if": "Onboarding data shows 32% drop-off at constitution input step. One user spent 45 minutes and gave up. Guided input could dramatically improve conversion.",
+      "kill_because": "No hard clause violation. But the evidence for guided input is mixed — it might hand-hold too much and produce generic constitutions. The current 3-line approach may filter for the right users (founders with strong product vision).",
+      "violated_clauses": [],
+      "allocation_score": {
+        "constitutional_fit": 0.70,
+        "transition_value": 0.65,
+        "evidence_strength": 0.72,
+        "death_risk": 0.40,
+        "effort_cost": 0.45,
+        "total": 0.35
+      },
+      "evidence_trail": [
+        { "observation_id": "obs-013", "relevance": 0.92, "quote": "Biggest drop: constitution_input → first_pipeline_run." },
+        { "observation_id": "obs-038", "relevance": 0.90, "quote": "Writing 'We are / We never / We value' took me 45 minutes." },
+        { "observation_id": "obs-047", "relevance": 0.75, "quote": "The naming is too academic. Just call it 'product policy'." }
+      ],
+      "salvage_path": "Start with 3 industry-specific templates (SaaS, Consumer, Dev Tools). Add guided dialog in v2 if template adoption > 50%.",
+      "pre_mortem": {
+        "death_cause": "Guided builder produces generic constitutions that all look the same, eliminating the differentiation that constitution-based reasoning provides.",
+        "early_signals": [
+          "Template-generated constitutions all produce similar allocations",
+          "Users skip questions in the guided flow"
+        ],
+        "untested_hypotheses": [
+          "Users prefer templates over blank input",
+          "Guided constitutions are as effective as hand-written ones"
+        ],
+        "mitigation": "Keep both paths: guided for new users, raw input for power users. Track which path produces higher-quality allocations."
+      },
+      "confidence": 0.68
+    }
+  ]
+}
