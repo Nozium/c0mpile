@@ -22,7 +22,7 @@ pre-shaped dataset, Constitution input / parser, observation normalization, Extr
 ### Phase2
 
 MVP の explainability を完成させ、builder handoff の stretch を足す。
-Evidence drill-down で demo core を閉じ、execution packet と coding agent export は pre-computed を許容しながら追加する。
+まず Chat / Agent / Promote / Decision Log で判断を artifact 化し、その上で evidence drill-down で demo core を閉じ、execution packet と coding agent export は pre-computed を許容しながら追加する。
 
 ### Phase3
 

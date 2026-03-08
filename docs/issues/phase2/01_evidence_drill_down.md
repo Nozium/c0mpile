@@ -1,7 +1,7 @@
 # Phase2-1 Evidence Drill-Down
 
 - Status: Proposed
-- Depends on: `04_build_next_and_kill_defer_surfaces.md`
+- Depends on: `00_chat_agent_promote_and_decision_log.md`, `04_build_next_and_kill_defer_surfaces.md`
 
 ## 背景
 

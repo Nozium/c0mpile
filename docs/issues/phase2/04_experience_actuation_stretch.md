@@ -1,7 +1,7 @@
 # Phase2-4 Experience Actuation Stretch
 
 - Status: Proposed
-- Depends on: `02_execution_packet_generation.md`
+- Depends on: `00_chat_agent_promote_and_decision_log.md`, `02_execution_packet_generation.md`
 - Classification: Stretch (Phase2.5)
 
 ## 背景

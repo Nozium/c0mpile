@@ -1,7 +1,7 @@
 # Phase2-3 Coding Agent Handoff And Exports
 
 - Status: Proposed
-- Depends on: `02_execution_packet_generation.md`
+- Depends on: `00_chat_agent_promote_and_decision_log.md`, `02_execution_packet_generation.md`
 
 ## 背景
 

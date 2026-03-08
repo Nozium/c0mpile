@@ -1,7 +1,7 @@
 # Phase2-2 Execution Packet Generation
 
 - Status: Proposed
-- Depends on: `01_evidence_drill_down.md`
+- Depends on: `00_chat_agent_promote_and_decision_log.md`, `01_evidence_drill_down.md`
 
 ## 背景
 
