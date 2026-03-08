@@ -9,6 +9,7 @@ import { ConstitutionInput } from "@/features/phase1/constitution/ConstitutionIn
 export default function Home() {
   const [constitutions, setConstitutions] = useState<Constitution[]>([]);
   const [selectedConstitution, setSelectedConstitution] = useState("const-a");
+  const [customConstitution, setCustomConstitution] = useState<Constitution | null>(null);
   const [compareMode, setCompareMode] = useState(false);
 
   const [run, setRun] = useState<AllocationRun | null>(null);
@@ -42,10 +43,14 @@ export default function Home() {
           setDiffs(data.diffs ?? []);
         }
       } else {
+        // Use custom constitution if available, otherwise use preset id
+        const payload = customConstitution
+          ? { constitution: customConstitution }
+          : { constitution_id: selectedConstitution };
         const res = await fetch("/api/allocate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ constitution_id: selectedConstitution }),
+          body: JSON.stringify(payload),
         });
         const data = await res.json();
         setRun(data);
@@ -57,7 +62,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  }, [selectedConstitution, compareMode]);
+  }, [selectedConstitution, customConstitution, compareMode]);
 
   // Auto-run on constitution change
   useEffect(() => {
@@ -108,7 +113,13 @@ export default function Home() {
         <ConstitutionInput
           constitutions={constitutions}
           selectedId={selectedConstitution}
-          onSelect={(id) => setSelectedConstitution(id)}
+          onSelect={(id) => {
+            setCustomConstitution(null);
+            setSelectedConstitution(id);
+          }}
+          onParsed={(c) => {
+            setCustomConstitution(c);
+          }}
         />
 
         {compareMode && diffs.length > 0 && (

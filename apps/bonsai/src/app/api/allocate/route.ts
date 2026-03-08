@@ -1,24 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { loadConstitutions, loadObservations, loadThemes } from "@/data/fixtures/loader";
+import { ConstitutionSchema } from "@/lib/schema";
 import { runAllocation, diffAllocationRuns } from "@/features/phase1/allocation/engine";
 
 /**
  * POST /api/allocate
- * Body: { constitution_id: string }
- * Returns allocation run for the specified constitution.
- *
- * POST /api/allocate with { compare: true }
- * Returns both runs + diff for Constitution A/B demo.
+ * Body: { constitution_id: string } — use a preset constitution
+ * Body: { constitution: Constitution } — use a custom constitution inline
+ * Body: { compare: true } — compare all preset constitutions
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const constitutions = loadConstitutions();
     const observations = loadObservations();
     const themes = loadThemes();
 
     if (body.compare) {
-      // A/B comparison mode
+      const constitutions = loadConstitutions();
       const runs = constitutions.map((constitution) =>
         runAllocation({ constitution, observations, themes })
       );
@@ -29,7 +27,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ runs, diffs });
     }
 
-    // Single constitution mode
+    // Custom constitution passed inline
+    if (body.constitution) {
+      const parsed = ConstitutionSchema.safeParse(body.constitution);
+      if (!parsed.success) {
+        return NextResponse.json(
+          { error: "Invalid constitution", issues: parsed.error.issues },
+          { status: 400 }
+        );
+      }
+      const run = runAllocation({ constitution: parsed.data, observations, themes });
+      return NextResponse.json(run);
+    }
+
+    // Preset constitution by id
+    const constitutions = loadConstitutions();
     const constitution = constitutions.find((c) => c.id === body.constitution_id);
     if (!constitution) {
       return NextResponse.json(
