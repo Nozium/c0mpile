@@ -40,6 +40,48 @@ const t = {
     ja: "画面上の対応",
     en: "On screen",
   },
+  problemTitle: {
+    ja: "今、何が起きているか",
+    en: "What's happening now",
+  },
+  problems: {
+    ja: [
+      {
+        label: "開発速度の向上",
+        desc: "AI によって実装コストが急速に低下。コードを書くスピードはもはやボトルネックではなくなった。",
+      },
+      {
+        label: "テストできないユーザーインタビュー",
+        desc: "定性データ（インタビュー、レビュー、サポート）は構造化されておらず、再現可能な検証ができない。",
+      },
+      {
+        label: "意思決定負荷の増大",
+        desc: "サービス数・機能候補が増えるほど、PM が判断すべき build / defer / kill の組合せが爆発する。",
+      },
+      {
+        label: "価値検証の課題",
+        desc: "作ったものが本当にユーザーの課題を解決しているかを、出荷前に確信度付きで判定する手段がない。",
+      },
+    ],
+    en: [
+      {
+        label: "Accelerating development speed",
+        desc: "AI has rapidly lowered the cost of implementation. Writing code is no longer the bottleneck.",
+      },
+      {
+        label: "Untestable user interviews",
+        desc: "Qualitative data (interviews, reviews, support tickets) remains unstructured and cannot be reproducibly validated.",
+      },
+      {
+        label: "Growing decision overload",
+        desc: "As the number of services and feature candidates grows, the combinatorial burden of build/defer/kill decisions explodes.",
+      },
+      {
+        label: "Value validation gap",
+        desc: "There is no way to judge, with confidence scores, whether what you're about to ship actually solves a real user problem.",
+      },
+    ],
+  },
   whyTitle: {
     ja: "なぜ「生成」ではなく「配分」か",
     en: 'Why "allocation" instead of "generation"?',
@@ -275,6 +317,31 @@ export default function GuidePage() {
       </header>
 
       <main className="max-w-4xl mx-auto p-6 space-y-8">
+        {/* Problems */}
+        <section className="bg-white rounded-xl border shadow-sm p-6">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">
+            {t.problemTitle[lang]}
+          </h2>
+          <div className="grid gap-3 md:grid-cols-2">
+            {t.problems[lang].map((problem, i) => (
+              <div
+                key={i}
+                className="rounded-lg border border-red-100 bg-red-50 p-4"
+              >
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="h-2 w-2 rounded-full bg-red-400" />
+                  <span className="text-sm font-bold text-red-900">
+                    {problem.label}
+                  </span>
+                </div>
+                <p className="text-xs text-red-800 leading-relaxed">
+                  {problem.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Intro */}
         <section className="bg-white rounded-xl border shadow-sm p-6">
           <h2 className="text-lg font-bold text-gray-900 mb-2">
