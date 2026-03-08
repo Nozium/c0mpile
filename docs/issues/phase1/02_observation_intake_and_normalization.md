@@ -1,6 +1,6 @@
 # Phase1-2 Observation Intake And Normalization
 
-- Status: Proposed
+- Status: Done
 - Depends on: `00_pre_shaped_demo_dataset.md`
 
 ## 背景
@@ -50,8 +50,15 @@
 - live scraping は不要
 - native CRM integration は後続 phase に回す
 
-## 未確定 / 要確認
+## 実装結果
 
-- CRM 製品種別と export 形式
-- dedupe の判定キー
-- usage data の粒度を event 単位にするか、週次集計から始めるか
+- `src/lib/schema/observation.ts` — ObservationSchema (id, source, channel_type, raw_text, extracted_intent, inferred_need, signal_type, severity, confidence, actor, weight, timestamp) + ThemeSchema
+- `src/features/phase1/observations/intake.ts` — `importObservationsFromJSON()` (per-item validation + error report), `parseCSVToObservations()`, `deduplicateObservations()` (raw_text + source キーで重複検知)
+- `src/data/fixtures/loader.ts` — demo dataset の static bundle 読み込み
+- テスト 4件 pass (`observation-intake.test.ts`)
+
+## 未確定 / 要確認 (解決済み)
+
+- ~~CRM 製品種別と export 形式~~ → Phase1 は JSON/CSV import のみ、native CRM は Phase2+
+- ~~dedupe の判定キー~~ → raw_text + source の一致で重複判定
+- ~~usage data の粒度を event 単位にするか、週次集計から始めるか~~ → Phase1 は pre-shaped で保留

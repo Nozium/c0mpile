@@ -15,6 +15,15 @@ export const ViolatedClauseSchema = z.object({
 });
 export type ViolatedClause = z.infer<typeof ViolatedClauseSchema>;
 
+export const ClauseEvalSchema = z.object({
+  clause_id: z.string(),
+  clause_text: z.string(),
+  axis: z.string(),
+  signal: z.enum(["violated", "aligned", "neutral"]),
+  detail: z.string().optional(),
+});
+export type ClauseEval = z.infer<typeof ClauseEvalSchema>;
+
 export const DecisionSchema = z.object({
   id: z.string(),
   theme_id: z.string(),
@@ -24,6 +33,7 @@ export const DecisionSchema = z.object({
   feature_outline_summary: z.string(),
   violated_clauses: z.array(ViolatedClauseSchema),
   supporting_evidence: z.array(EvidenceRefSchema),
+  clause_evals: z.array(ClauseEvalSchema).optional(),
   kill_reason: z.string().optional(),
   defer_reason: z.string().optional(),
   build_rationale: z.string().optional(),

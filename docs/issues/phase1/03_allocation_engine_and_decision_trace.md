@@ -1,6 +1,6 @@
 # Phase1-3 Allocation Engine And Decision Trace
 
-- Status: Proposed
+- Status: Done
 - Depends on: `01_constitution_input_and_parser.md`, `02_observation_intake_and_normalization.md`
 
 ## 背景
@@ -57,9 +57,19 @@ normalized observation を抽出・クラスタリングし、constitution と e
 - MVP では build / defer / kill に絞る
 - explicit な user state inference と allocation scoring は後続 phase に回す
 
-## 未確定 / 要確認
+## 実装結果
 
-- extract / cluster をどこまで deterministic に寄せるか
-- theme cluster の粒度
-- evidence quote をどこまで UI に露出するか
-- 最低何件の observation があれば allocation を信頼してよいか
+- `src/features/phase1/allocation/engine.ts` — `runAllocation(input)` で Constitution × Themes → build/defer/kill を決定
+- 判定ロジック: hard violation → kill, alignment + urgency → build, それ以外 → defer
+- `ClauseEval` — 全 clause に対する per-decision シグナル (violated/aligned/neutral) を生成。ConstitutionLens の横断比較に使用
+- `diffAllocationRuns()` — Constitution A/B の結果差分を検出
+- `Decision` に violated_clauses, supporting_evidence, clause_evals, kill_reason, defer_reason, build_rationale を含む完全な trace
+- confidence 計算: violation count, alignment count, observation confidence, observation count から算出
+- テスト 5件 pass (`allocation-engine.test.ts`)
+
+## 未確定 / 要確認 (解決済み)
+
+- ~~extract / cluster をどこまで deterministic に寄せるか~~ → Phase1 は完全 deterministic (keyword matching)、LLM は Phase2+
+- ~~theme cluster の粒度~~ → pre-shaped themes (5件) で固定、動的クラスタリングは Phase2+
+- ~~evidence quote をどこまで UI に露出するか~~ → EvidencePanel で raw_text をブロック引用表示
+- ~~最低何件の observation があれば allocation を信頼してよいか~~ → 24件で成立確認、confidence score で不確実性を表示

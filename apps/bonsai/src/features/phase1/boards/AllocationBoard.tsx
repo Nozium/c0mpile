@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { AllocationRun, Decision } from "@/lib/schema";
 import { DecisionCard } from "./DecisionCard";
 import { EvidencePanel } from "./EvidencePanel";
+import { ConstitutionLens } from "./ConstitutionLens";
 import { buildIssueBody, type CardAction } from "./card-actions";
 
 export function AllocationBoard({
@@ -75,6 +76,9 @@ export function AllocationBoard({
           {run.observation_count} observations / {run.theme_count} themes
         </div>
       </div>
+
+      {/* Constitutional Lens — cross-card clause comparison */}
+      <ConstitutionLens run={run} />
 
       {/* Two-column layout: Build Next | Kill / Defer */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

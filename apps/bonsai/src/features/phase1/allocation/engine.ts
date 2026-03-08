@@ -6,6 +6,7 @@ import type {
   AllocationRun,
   EvidenceRef,
   ViolatedClause,
+  ClauseEval,
 } from "@/lib/schema";
 import { findViolations, findAlignments } from "../constitution/parser";
 
@@ -138,6 +139,21 @@ function evaluateTheme(
     themeObservations.length
   );
 
+  // Build per-clause evaluation for constitutional lens
+  const violationSet = new Set(violations.map((v) => v.clause.id));
+  const alignmentSet = new Set(alignments.map((a) => a.clause.id));
+  const clauseEvals: ClauseEval[] = constitution.clauses.map((clause) => {
+    if (violationSet.has(clause.id)) {
+      const v = violations.find((x) => x.clause.id === clause.id)!;
+      return { clause_id: clause.id, clause_text: clause.text, axis: clause.axis, signal: "violated" as const, detail: v.reason };
+    }
+    if (alignmentSet.has(clause.id)) {
+      const a = alignments.find((x) => x.clause.id === clause.id)!;
+      return { clause_id: clause.id, clause_text: clause.text, axis: clause.axis, signal: "aligned" as const, detail: a.reason };
+    }
+    return { clause_id: clause.id, clause_text: clause.text, axis: clause.axis, signal: "neutral" as const };
+  });
+
   return {
     id: `decision-${theme.id}`,
     theme_id: theme.id,
@@ -147,6 +163,7 @@ function evaluateTheme(
     feature_outline_summary: generateFeatureOutline(theme, verdict),
     violated_clauses: violatedClauses,
     supporting_evidence: evidenceRefs,
+    clause_evals: clauseEvals,
     kill_reason: killReason,
     defer_reason: deferReason,
     build_rationale: buildRationale,
