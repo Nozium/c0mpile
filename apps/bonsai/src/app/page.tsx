@@ -137,6 +137,12 @@ export default function Home() {
               {loading ? "Running..." : "Re-evaluate"}
             </button>
             <Link
+              href="/connections"
+              className="text-xs border border-gray-300 text-gray-600 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              Connections Console
+            </Link>
+            <Link
               href="/guide"
               className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors text-sm font-medium"
               title="BONSAI Guide"

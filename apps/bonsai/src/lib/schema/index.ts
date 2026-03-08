@@ -4,3 +4,4 @@ export * from "./decision";
 export * from "./proposal";
 export * from "./execution-packet";
 export * from "./decision-log";
+export * from "./connection";
