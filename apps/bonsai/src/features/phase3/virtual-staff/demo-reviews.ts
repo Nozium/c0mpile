@@ -1,0 +1,276 @@
+import type { StaffReview } from "@/lib/schema";
+
+/**
+ * Pre-computed demo reviews for Constitution A and Proposal prop-001.
+ * These provide rich, realistic review content for the demo flow.
+ */
+const DEMO_REVIEWS: StaffReview[] = [
+  {
+    id: "demo-review-const-a",
+    target_type: "constitution",
+    target_id: "const-a",
+    reviewer_types: ["yc_partner", "first_principles", "customer_advocate", "strategic_skeptic"],
+    questions: [
+      // YC Partner Panel
+      {
+        id: "rq-yc-001",
+        reviewer_type: "yc_partner",
+        axis_id: "problem_reality",
+        question: "今日このプロダクトに月$100払うPMを3人挙げられるか？",
+        why_this_matters: "需要の実在証明。挙げられなければ全て仮説のまま。PMツール市場は既に飽和しており、差別化なき参入は資金を燃やすだけ。",
+        severity: "fatal",
+      },
+      {
+        id: "rq-yc-002",
+        reviewer_type: "yc_partner",
+        axis_id: "solution_simplicity",
+        question: "Constitution → 5軸正規化 → Evidence → Allocation という多段パイプラインは、スプレッドシート+ChatGPTより本質的に優れているか？",
+        why_this_matters: "解法の必然性。ユーザーが既に代替手段で解決しているなら、パイプラインの複雑さはコストでしかない。",
+        severity: "critical",
+      },
+      {
+        id: "rq-yc-003",
+        reviewer_type: "yc_partner",
+        axis_id: "market_size",
+        question: "\"Brand Constitution を書いて、それに基づいてプロダクト判断をする PM\" は何人いるか？TAMは十分か？",
+        why_this_matters: "新カテゴリ創出の場合、市場を教育するコストが想定以上にかかる。実際に constitution を書く PM の母数が小さければ、スケールしない。",
+        severity: "critical",
+      },
+      {
+        id: "rq-yc-004",
+        reviewer_type: "yc_partner",
+        axis_id: "why_now",
+        question: "なぜ今このツールが必要なのか？LLM の進化以外の why now は何か？",
+        why_this_matters: "LLM が使えるから作れる、と LLM がないと解けない問題がある、は別の主張。技術プッシュだけでは PMF に至りにくい。",
+        severity: "important",
+      },
+      {
+        id: "rq-yc-005",
+        reviewer_type: "yc_partner",
+        axis_id: "go_to_market",
+        question: "最初の10社をどうやって獲得するか？Privacy-first を重視する PM チームへの具体的なリーチ手段は？",
+        why_this_matters: "プロダクトの質以前に、ターゲットに到達できなければ仮説検証すらできない。",
+        severity: "important",
+      },
+      // First Principles Engineer
+      {
+        id: "rq-fp-001",
+        reviewer_type: "first_principles",
+        axis_id: "bottleneck_physics",
+        question: "PM がプロダクト判断を誤る根本原因は何か？情報不足か、判断フレームワーク不足か、組織の意思決定プロセスか？",
+        why_this_matters: "ボトルネックを誤認すると、解決策が問題に刺さらない。Constitution がフレームワーク問題を解くなら、情報不足の PM には無力。",
+        severity: "fatal",
+      },
+      {
+        id: "rq-fp-002",
+        reviewer_type: "first_principles",
+        axis_id: "10x_test",
+        question: "BONSAI を使った判断は、経験豊富な PM の直感と比べて10倍良いか？それとも漸進的改善か？",
+        why_this_matters: "10倍でなければツール切り替えコストを正当化できない。漸進的改善は既存ツールに吸収される。",
+        severity: "fatal",
+      },
+      {
+        id: "rq-fp-003",
+        reviewer_type: "first_principles",
+        axis_id: "irreducible_core",
+        question: "BONSAI の不可約な核を1文で言えるか？Constitution, Evidence, Allocation, Kill Board のうちどれが本質で、どれが飾りか？",
+        why_this_matters: "1文で言えない価値は伝えられない。コアが不明確なら、機能追加のたびに方向を見失う。",
+        severity: "critical",
+      },
+      {
+        id: "rq-fp-004",
+        reviewer_type: "first_principles",
+        axis_id: "complexity_audit",
+        question: "3行の constitution 入力 → 5軸正規化 → clause 導出 → evidence 照合 → allocation → board 表示。このうち省略できるステップはないか？",
+        why_this_matters: "最良のパーツは無いパーツ。各ステップの追加は正確性を上げるかもしれないが、理解しにくさと壊れやすさも上げる。",
+        severity: "important",
+      },
+      // Customer Advocate
+      {
+        id: "rq-ca-001",
+        reviewer_type: "customer_advocate",
+        axis_id: "job_clarity",
+        question: "PM が BONSAI を「雇う」瞬間は具体的にいつか？四半期計画時か、日々のバックログ整理か、プロダクトレビュー会議か？",
+        why_this_matters: "job が曖昧だと使用頻度が下がる。週次で使わないツールは定着しない。",
+        severity: "critical",
+      },
+      {
+        id: "rq-ca-002",
+        reviewer_type: "customer_advocate",
+        axis_id: "current_workaround",
+        question: "PM は今日、Build/Kill 判断をどうやっているか？その方法の何が具体的に痛いか？",
+        why_this_matters: "現在のワークアラウンドの痛みが小さければ、新ツールへの切り替え動機が弱い。",
+        severity: "critical",
+      },
+      {
+        id: "rq-ca-003",
+        reviewer_type: "customer_advocate",
+        axis_id: "switching_motivation",
+        question: "PM が既存の意思決定プロセス（スプレッドシート、会議、直感）を捨ててまで BONSAI を使う理由は何か？",
+        why_this_matters: "切り替えコストは常に過小評価される。組織の意思決定プロセスを変えるのは個人ツール導入より遥かに困難。",
+        severity: "important",
+      },
+      {
+        id: "rq-ca-004",
+        reviewer_type: "customer_advocate",
+        axis_id: "target_paradox",
+        question: "Brand Constitution を書ける PM は、そもそも判断に困っていないのでは？書けない PM にとって BONSAI は使えるのか？",
+        why_this_matters: "ターゲットパラドックス。能力のある人は自力で解決でき、能力のない人はツールも使えない可能性。",
+        severity: "fatal",
+      },
+      {
+        id: "rq-ca-005",
+        reviewer_type: "customer_advocate",
+        axis_id: "willingness_to_pay",
+        question: "$100/mo の価値を PM はどこに見出すか？Kill 判断の精度か、チーム合意形成のスピードか、意思決定の記録か？",
+        why_this_matters: "支払い意欲の根拠が不明確だと pricing が成立しない。PM ツールは無料代替が多い市場。",
+        severity: "important",
+      },
+      // Strategic Skeptic
+      {
+        id: "rq-ss-001",
+        reviewer_type: "strategic_skeptic",
+        axis_id: "moat_type",
+        question: "BONSAI の防御性は何か？Constitution テンプレート、evidence データ、判断履歴のどれがmoatになるか？",
+        why_this_matters: "feature は真似できる。moat がなければ大手が追加機能として実装して終わり。",
+        severity: "fatal",
+      },
+      {
+        id: "rq-ss-002",
+        reviewer_type: "strategic_skeptic",
+        axis_id: "incumbent_response",
+        question: "Notion, Linear, Productboard が「Constitution-based allocation」を3ヶ月で実装したら、BONSAI に何が残るか？",
+        why_this_matters: "既存プレイヤーは既にユーザーベースとデータを持っている。後発の独立ツールが勝つには明確な非対称優位が必要。",
+        severity: "critical",
+      },
+      {
+        id: "rq-ss-003",
+        reviewer_type: "strategic_skeptic",
+        axis_id: "dependency_risk",
+        question: "Claude API への依存度はどの程度か？Anthropic が API 料金を3倍にしたら unit economics は成立するか？",
+        why_this_matters: "LLM プロバイダーへの依存は、コスト構造と可用性の両方にリスクを生む。代替プランの有無が事業継続性を左右する。",
+        severity: "critical",
+      },
+      {
+        id: "rq-ss-004",
+        reviewer_type: "strategic_skeptic",
+        axis_id: "category_risk",
+        question: "\"Constitutional Product Allocation\" は新カテゴリか？顧客はこのカテゴリを探しているか、それとも教育が必要か？",
+        why_this_matters: "新カテゴリ創出は教育コストが高い。顧客が探していないものを売るのは、プロダクトの質とは無関係に困難。",
+        severity: "important",
+      },
+      {
+        id: "rq-ss-005",
+        reviewer_type: "strategic_skeptic",
+        axis_id: "self_review",
+        question: "BONSAI 自身を BONSAI に通したら、build / kill どちらが出るか？Constitution に照らして自己矛盾はないか？",
+        why_this_matters: "自己参照テスト。自社プロダクトが自社の判断基準に合格しないなら、説得力がない。",
+        severity: "probe",
+      },
+    ],
+    summary: {
+      total_questions: 19,
+      fatal_count: 5,
+      critical_count: 7,
+      important_count: 6,
+      probe_count: 1,
+      top_blind_spot: "ターゲットパラドックス：Constitution を書ける PM は判断に困っていない可能性。書けない PM にはツールが使えない可能性。",
+      overall_assessment: "5件の fatal question が未解決。特に需要の実在証明（F1: 誰が$100/mo払うか）と、ターゲットパラドックス（Constitution を書ける人 ≠ 必要な人）の解消が最優先。",
+    },
+    created_at: "2026-03-08T00:00:00.000Z",
+  },
+  {
+    id: "demo-review-prop-001",
+    target_type: "proposal",
+    target_id: "prop-001",
+    reviewer_types: ["yc_partner", "first_principles", "customer_advocate", "strategic_skeptic"],
+    questions: [
+      {
+        id: "rq-prop-yc-001",
+        reviewer_type: "yc_partner",
+        axis_id: "problem_reality",
+        question: "「78%がオフラインモードを有効化」のデータソースは何か？サンプルサイズと測定期間は？",
+        why_this_matters: "数字の信頼性。自社データなら N=100 か N=10000 かで意味が全く違う。",
+        severity: "critical",
+        related_proposal_ids: ["prop-001"],
+      },
+      {
+        id: "rq-prop-yc-002",
+        reviewer_type: "yc_partner",
+        axis_id: "traction",
+        question: "D30 retention 85% vs 45% の因果関係は証明されているか？相関ではないか？",
+        why_this_matters: "オフラインモードを有効化するユーザーが元々エンゲージメントが高い可能性。因果と相関を混同すると、実装しても retention は変わらない。",
+        severity: "fatal",
+        related_proposal_ids: ["prop-001"],
+      },
+      {
+        id: "rq-prop-fp-001",
+        reviewer_type: "first_principles",
+        axis_id: "complexity_audit",
+        question: "「offline storage → sync → conflict resolution」の全てを作る前に、read-only offline だけで retention は改善するか？",
+        why_this_matters: "最小の実装で仮説を検証する。sync と conflict resolution は複雑性の塊であり、必要でなければ作るべきではない。",
+        severity: "critical",
+        related_proposal_ids: ["prop-001"],
+      },
+      {
+        id: "rq-prop-fp-002",
+        reviewer_type: "first_principles",
+        axis_id: "iteration_speed",
+        question: "オフライン対応の最小 MVP を48時間で ship できるか？できないなら scope が大きすぎないか？",
+        why_this_matters: "実装に2ヶ月かかるなら、その間に市場が変わるリスクがある。速度は正確性に勝る。",
+        severity: "important",
+        related_proposal_ids: ["prop-001"],
+      },
+      {
+        id: "rq-prop-ca-001",
+        reviewer_type: "customer_advocate",
+        axis_id: "job_clarity",
+        question: "ユーザーが offline で具体的に何をしたいのか？閲覧だけか、編集もか？offline でやる job は online と同じか？",
+        why_this_matters: "offline の job が不明確だと、作ったものが使われない。「offline でも使える」と「offline でないと困る」は違う。",
+        severity: "critical",
+        related_proposal_ids: ["prop-001"],
+      },
+      {
+        id: "rq-prop-ca-002",
+        reviewer_type: "customer_advocate",
+        axis_id: "current_workaround",
+        question: "オフライン環境の PM は今日どう対処しているか？メモ帳に書き出す？スクリーンショットを撮る？そもそもオフラインで作業しない？",
+        why_this_matters: "workaround が存在しないなら、そもそもオフラインでの作業ニーズ自体が疑わしい。",
+        severity: "important",
+        related_proposal_ids: ["prop-001"],
+      },
+      {
+        id: "rq-prop-ss-001",
+        reviewer_type: "strategic_skeptic",
+        axis_id: "incumbent_response",
+        question: "Notion はオフラインモードを持っている。Linear もオフライン対応を進めている。BONSAI のオフライン対応は差別化になるか？",
+        why_this_matters: "大手が既に実装済みまたは実装予定の機能に投資しても、キャッチアップにしかならない。",
+        severity: "critical",
+        related_proposal_ids: ["prop-001"],
+      },
+    ],
+    summary: {
+      total_questions: 7,
+      fatal_count: 1,
+      critical_count: 4,
+      important_count: 2,
+      probe_count: 0,
+      top_blind_spot: "D30 retention の因果関係が未証明。オフラインモード有効化と retention の相関が、因果を意味するとは限らない。",
+      overall_assessment: "1件の fatal（retention 因果関係）と4件の critical が未解決。Proposal の build 判定自体は constitution に整合するが、evidence の質に疑問あり。",
+    },
+    created_at: "2026-03-08T00:00:00.000Z",
+  },
+];
+
+export function loadDemoReview(
+  targetType: string,
+  targetId: string,
+): StaffReview | undefined {
+  return DEMO_REVIEWS.find(
+    (r) => r.target_type === targetType && r.target_id === targetId,
+  );
+}
+
+export function loadDemoReviewById(reviewId: string): StaffReview | undefined {
+  return DEMO_REVIEWS.find((r) => r.id === reviewId);
+}

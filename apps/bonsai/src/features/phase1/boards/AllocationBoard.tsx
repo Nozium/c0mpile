@@ -11,10 +11,12 @@ export function AllocationBoard({
   run,
   compareRun,
   diffs,
+  onReviewProposal,
 }: {
   run: AllocationRun;
   compareRun?: AllocationRun;
   diffs?: { theme_id: string; verdict_a: string; verdict_b: string }[];
+  onReviewProposal?: (proposalId: string) => void;
 }) {
   const [selectedDecision, setSelectedDecision] = useState<Decision | null>(null);
   const [actionToast, setActionToast] = useState<string | null>(null);
@@ -45,6 +47,9 @@ export function AllocationBoard({
         break;
       case "override_decision":
         setActionToast(`Override: ${decision.theme_label} (not implemented)`);
+        break;
+      case "virtual_staff_review":
+        onReviewProposal?.(decision.theme_id);
         break;
       default:
         break;

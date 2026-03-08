@@ -7,7 +7,8 @@ export type CardAction =
   | "create_salvage_proposal"
   | "request_more_evidence"
   | "override_decision"
-  | "copy_rationale";
+  | "copy_rationale"
+  | "virtual_staff_review";
 
 export type DecisionActionConfig = {
   primary: CardAction;
@@ -17,15 +18,15 @@ export type DecisionActionConfig = {
 export const defaultActions: Record<Decision["verdict"], DecisionActionConfig> = {
   build: {
     primary: "send_rork",
-    secondary: ["add_linear_issue", "add_github_issue", "copy_rationale"],
+    secondary: ["virtual_staff_review", "add_linear_issue", "add_github_issue", "copy_rationale"],
   },
   defer: {
     primary: "add_linear_issue",
-    secondary: ["add_github_issue", "request_more_evidence", "send_rork", "copy_rationale"],
+    secondary: ["virtual_staff_review", "add_github_issue", "request_more_evidence", "send_rork", "copy_rationale"],
   },
   kill: {
     primary: "add_github_issue",
-    secondary: ["add_linear_issue", "create_salvage_proposal", "copy_rationale"],
+    secondary: ["virtual_staff_review", "add_linear_issue", "create_salvage_proposal", "copy_rationale"],
   },
 };
 
@@ -37,6 +38,7 @@ export const actionLabels: Record<CardAction, string> = {
   request_more_evidence: "Request More Evidence",
   override_decision: "Override",
   copy_rationale: "Copy Rationale",
+  virtual_staff_review: "Virtual Staff Review",
 };
 
 /** Build issue body content that varies by verdict */
