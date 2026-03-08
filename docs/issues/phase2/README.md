@@ -27,6 +27,7 @@ Phase1 で出した build / kill 判断を、artifact として残り、共有�
 ### Core
 - `00_chat_agent_promote_and_decision_log.md`
 - `01_evidence_drill_down.md`
+- `01a_evidence_card_action_connections.md`
 - `02_execution_packet_generation.md`
 - `03_coding_agent_handoff_and_exports.md`
 
