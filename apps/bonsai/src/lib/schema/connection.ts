@@ -33,6 +33,11 @@ export const DecisionConnectionSchema = z.object({
   linked_observation_ids: z.array(z.string()),
   available_actions: z.array(z.string()),
   has_execution_packet: z.boolean(),
+  has_coding_export: z.boolean(),
+  primary_action: z.string(),
+  actuation_status: z
+    .enum(["not_started", "brief_ready", "preview_ready", "approved", "rejected"])
+    .optional(),
 });
 export type DecisionConnection = z.infer<typeof DecisionConnectionSchema>;
 

@@ -14,6 +14,7 @@ export function DecisionCard({
   decision,
   compareVerdict,
   hasPacket,
+  hasCodingExport,
   onDrillDown,
   onViewPacket,
   onCodingExport,
@@ -22,6 +23,7 @@ export function DecisionCard({
   decision: Decision;
   compareVerdict?: string;
   hasPacket?: boolean;
+  hasCodingExport?: boolean;
   onDrillDown?: (decision: Decision) => void;
   onViewPacket?: (decision: Decision) => void;
   onCodingExport?: (decision: Decision) => void;
@@ -29,6 +31,12 @@ export function DecisionCard({
 }) {
   const style = verdictStyles[decision.verdict];
   const changed = compareVerdict && compareVerdict !== decision.verdict;
+  const artifactBadges = [
+    `${decision.supporting_evidence.length} evidence`,
+    hasPacket ? "packet ready" : null,
+    hasCodingExport ? "agent export" : null,
+    changed ? "A/B changed" : null,
+  ].filter(Boolean) as string[];
 
   return (
     <div
@@ -38,11 +46,18 @@ export function DecisionCard({
         <h3 className="font-semibold text-gray-900 text-sm leading-tight">
           {decision.theme_label}
         </h3>
-        <span
-          className={`${style.badge} text-white text-xs font-bold px-2 py-0.5 rounded-full shrink-0`}
-        >
-          {style.label}
-        </span>
+        <div className="flex items-center gap-1.5 shrink-0">
+          {decision.verdict === "build" && (
+            <span className="text-xs font-bold text-emerald-700 tabular-nums">
+              {(decision.confidence * 100).toFixed(0)}
+            </span>
+          )}
+          <span
+            className={`${style.badge} text-white text-xs font-bold px-2 py-0.5 rounded-full`}
+          >
+            {style.label}
+          </span>
+        </div>
       </div>
 
       {changed && (
@@ -54,6 +69,17 @@ export function DecisionCard({
       <p className="text-xs text-gray-600 mb-3 line-clamp-2">
         {decision.feature_outline_summary}
       </p>
+
+      <div className="mb-3 flex flex-wrap gap-1.5">
+        {artifactBadges.map((badge) => (
+          <span
+            key={badge}
+            className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-medium text-gray-600 ring-1 ring-gray-200"
+          >
+            {badge}
+          </span>
+        ))}
+      </div>
 
       {/* Reason */}
       {decision.kill_reason && (
@@ -117,7 +143,7 @@ export function DecisionCard({
               Execution Packet
             </button>
           )}
-          {onCodingExport && (
+          {hasCodingExport && onCodingExport && (
             <button
               onClick={() => onCodingExport(decision)}
               className="text-xs text-indigo-600 hover:text-indigo-800 underline"

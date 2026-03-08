@@ -2,23 +2,25 @@
 
 import { useMemo, useRef, useState } from "react";
 import type { ObservationConnection, DecisionConnection } from "@/lib/schema";
-import { EvidenceColumn } from "./EvidenceColumn";
-import { CardColumn } from "./CardColumn";
 import { ActionColumn } from "./ActionColumn";
 import { ConnectionLines } from "./ConnectionLines";
 
 interface ConnectionsConsoleProps {
   observations: ObservationConnection[];
   decisions: DecisionConnection[];
+  initialDecisionId?: string | null;
+  initialObservationId?: string | null;
 }
 
 export function ConnectionsConsole({
   observations,
   decisions,
+  initialDecisionId = null,
+  initialObservationId = null,
 }: ConnectionsConsoleProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [selectedObservationId, setSelectedObservationId] = useState<string | null>(null);
-  const [selectedDecisionId, setSelectedDecisionId] = useState<string | null>(null);
+  const [selectedObservationId, setSelectedObservationId] = useState<string | null>(initialObservationId);
+  const [selectedDecisionId, setSelectedDecisionId] = useState<string | null>(initialDecisionId);
 
   // Cross-highlighting: observation selected → highlight linked decisions
   const highlightedDecisionIds = useMemo(() => {
@@ -127,7 +129,7 @@ function EvidenceColumnWithIds(props: {
       <div className="px-3 py-2 border-b bg-gray-50 flex-shrink-0">
         <h2 className="text-sm font-bold text-gray-800">Evidence</h2>
         <p className="text-[10px] text-gray-500">
-          {props.observations.length} observations
+          Evidence Agent · {props.observations.length} observations
         </p>
       </div>
       <div className="flex-1 overflow-y-auto" data-scroll-area>
@@ -254,6 +256,9 @@ function CardColumnWithIds(props: {
       <div className="px-3 py-2 border-b bg-gray-50 flex-shrink-0">
         <h2 className="text-sm font-bold text-gray-800">Judgment</h2>
         <div className="flex gap-2 mt-0.5">
+          <span className="text-[10px] text-gray-400">
+            Judgment Agent
+          </span>
           <span className="text-[10px] text-green-700 font-medium">
             {builds.length} build
           </span>

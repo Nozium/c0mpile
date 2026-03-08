@@ -9,6 +9,7 @@ import { OverrideDialog } from "@/features/phase2/decision-log/OverrideDialog";
 import { ProposalDetailDrawer } from "@/features/phase2/evidence-drilldown/ProposalDetailDrawer";
 import { ExecutionPacketViewer } from "@/features/phase2/execution-packet/ExecutionPacketViewer";
 import { CodingAgentExportPanel } from "@/features/phase2/coding-agent-export/CodingAgentExportPanel";
+import { buildRorkBrief } from "@/features/phase2/execution-packet/rork-brief";
 
 type ViewMode = "none" | "evidence" | "execution-packet" | "coding-export";
 
@@ -62,13 +63,34 @@ export function AllocationBoard({
     showToast(`No execution packet available for: ${decision.theme_label}`);
   };
 
+  const handleOpenCodingExport = (decision: Decision) => {
+    const proposal = proposalMap.get(decision.theme_id);
+    if (proposal) {
+      const packet = packetMap.get(proposal.id);
+      if (packet) {
+        setSelectedPacket(packet);
+        setViewMode("coding-export");
+        return;
+      }
+    }
+    showToast(`No coding export available for: ${decision.theme_label}`);
+  };
+
   const handleAction = (action: CardAction, decision: Decision) => {
     const body = buildIssueBody(decision);
 
     switch (action) {
-      case "send_rork":
-        handleViewPacket(decision);
+      case "send_rork": {
+        const proposal = proposalMap.get(decision.theme_id);
+        const packet = proposal ? packetMap.get(proposal.id) : null;
+        if (!packet) {
+          showToast(`No packet available to prepare Rork brief: ${decision.theme_label}`);
+          break;
+        }
+        navigator.clipboard.writeText(buildRorkBrief(packet, decision));
+        showToast(`Rork brief copied: ${decision.theme_label}`);
         break;
+      }
       case "add_github_issue":
       case "add_linear_issue": {
         const label = action === "add_github_issue" ? "GitHub Issue" : "Linear";
@@ -127,9 +149,13 @@ export function AllocationBoard({
     setViewMode("none");
   };
 
-  const buildDecisions = run.decisions.filter((d) => d.verdict === "build");
+  const buildDecisions = run.decisions
+    .filter((d) => d.verdict === "build")
+    .sort((a, b) => b.confidence - a.confidence);
   const deferDecisions = run.decisions.filter((d) => d.verdict === "defer");
-  const killDecisions = run.decisions.filter((d) => d.verdict === "kill");
+  const killDecisions = run.decisions
+    .filter((d) => d.verdict === "kill")
+    .sort((a, b) => b.confidence - a.confidence);
 
   const diffMap = new Map(diffs?.map((d) => [d.theme_id, d.verdict_b]) ?? []);
 
@@ -169,8 +195,10 @@ export function AllocationBoard({
                 decision={d}
                 compareVerdict={diffMap.get(d.theme_id)}
                 hasPacket={!!packetMap.get(proposalMap.get(d.theme_id)?.id ?? "")}
+                hasCodingExport={!!packetMap.get(proposalMap.get(d.theme_id)?.id ?? "")}
                 onDrillDown={handleDrillDown}
                 onViewPacket={handleViewPacket}
+                onCodingExport={handleOpenCodingExport}
                 onAction={handleAction}
               />
             ))}

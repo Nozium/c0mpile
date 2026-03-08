@@ -5,6 +5,8 @@ import Link from "next/link";
 import type { AllocationRun, Constitution, Proposal, ExecutionPacket } from "@/lib/schema";
 import { AllocationBoard } from "@/features/phase1/boards/AllocationBoard";
 import { ConstitutionInput } from "@/features/phase1/constitution/ConstitutionInput";
+import { AgentActivityStrip } from "@/features/phase2/agent-activity/AgentActivityStrip";
+import { deriveBoardAgentActivity } from "@/features/phase2/agent-activity/derive";
 
 export default function Home() {
   const [constitutions, setConstitutions] = useState<Constitution[]>([]);
@@ -137,7 +139,7 @@ export default function Home() {
               {loading ? "Running..." : "Re-evaluate"}
             </button>
             <Link
-              href="/connections"
+              href={run ? `/connections?run_id=${encodeURIComponent(run.id)}` : "/connections"}
               className="text-xs border border-gray-300 text-gray-600 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
               Connections Console
@@ -188,6 +190,11 @@ export default function Home() {
           <div>
             <div className="text-xs text-gray-400 mb-2">
               {run.constitution_label} | {run.timestamp}
+            </div>
+            <div className="mb-6">
+              <AgentActivityStrip
+                items={deriveBoardAgentActivity(run, executionPackets)}
+              />
             </div>
             <AllocationBoard
               run={run}

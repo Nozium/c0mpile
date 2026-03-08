@@ -30,7 +30,7 @@ export const defaultActions: Record<Decision["verdict"], DecisionActionConfig> =
 };
 
 export const actionLabels: Record<CardAction, string> = {
-  send_rork: "Send to Rork",
+  send_rork: "Prepare Rork Brief",
   add_github_issue: "Add to GitHub Issue",
   add_linear_issue: "Add to Linear",
   create_salvage_proposal: "Create Salvage Proposal",

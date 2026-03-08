@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { loadConstitutions, loadObservations, loadThemes } from "@/data/fixtures/loader";
 import { ConstitutionSchema } from "@/lib/schema";
 import { runAllocation, diffAllocationRuns } from "@/features/phase1/allocation/engine";
+import { saveRunContext } from "@/features/phase2/connections/run-store";
 
 /**
  * POST /api/allocate
@@ -17,9 +18,11 @@ export async function POST(request: NextRequest) {
 
     if (body.compare) {
       const constitutions = loadConstitutions();
-      const runs = constitutions.map((constitution) =>
-        runAllocation({ constitution, observations, themes })
-      );
+      const runs = constitutions.map((constitution) => {
+        const run = runAllocation({ constitution, observations, themes });
+        saveRunContext(run, observations);
+        return run;
+      });
       const diffs = runs.length >= 2
         ? diffAllocationRuns(runs[0], runs[1])
         : [];
@@ -37,6 +40,7 @@ export async function POST(request: NextRequest) {
         );
       }
       const run = runAllocation({ constitution: parsed.data, observations, themes });
+      saveRunContext(run, observations);
       return NextResponse.json(run);
     }
 
@@ -51,6 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     const run = runAllocation({ constitution, observations, themes });
+    saveRunContext(run, observations);
     return NextResponse.json(run);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";

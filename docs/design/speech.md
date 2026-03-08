@@ -6,40 +6,54 @@
 - Video recording, upload to GitHub
 - 4 sections: Problem → Solution → Approach → How it works
 
+## One-line Frame
+
+- `Problem`
+  - AI made building fast, but PM judgment did not get faster.
+- `Solution`
+  - BONSAI is a constitutional product allocation system for PMs.
+- `Approach`
+  - Turn product policy and evidence into build / defer / kill with traceable reasons.
+- `How it works`
+  - Write a constitution, run allocation, inspect the evidence, and turn surviving ideas into handoff artifacts.
+
 ---
 
 ## Outline (時間配分)
 
 ### 1. Problem (0:00 - 0:25) — 25秒
 
-**言いたいこと**: AI が生産を 10x にしたが、判断が追いつかない。
+**言いたいこと**: AI が生産を 10x にした結果、ボトルネックが build から judgment に移った。
 
 **スクリプト案**:
 
 > I shipped 10 products in one month using AI coding tools.
 > Revenue: zero. Customer conversations: zero.
 >
-> AI made building 10x faster. But nobody made deciding-what-to-build faster.
-> The bottleneck shifted — from "how to build" to "what to build, and what NOT to build."
+> AI made building 10x faster. But deciding what to build did not get faster.
+> The bottleneck shifted from execution to judgment.
 >
-> This is already happening at scale. Just like App Store review became a bottleneck when submission speed exceeded review speed — product judgment is now the bottleneck when build speed exceeds evaluation speed.
+> PMs are now overwhelmed by candidates, feedback, prototypes, and requests.
+> What they need is not more generation. What they need is a faster, more defensible way to decide what to build, defer, and kill.
 
-**画面**: なし、または「10 products → 0 revenue」のテキスト表示
+**画面**: `10 products -> 0 revenue` と `build faster, decide slower` の 2 行
 
 ---
 
 ### 2. Solution (0:25 - 0:45) — 20秒
 
-**言いたいこと**: Constitutional Product Allocation System。判断基準を外在化し、evidence ベースで build/kill を振り分ける。
+**言いたいこと**: BONSAI は PM judgment を置き換えるのではなく、product policy と evidence を使って judgment を外在化する。
 
 **スクリプト案**:
 
-> We built a constitutional product allocation system.
+> We built BONSAI, a constitutional product allocation system for PMs.
 >
-> You define your product policy in three lines — who you are, what you never do, what you value.
-> The system turns customer evidence into build, defer, or kill decisions — with reasons you can trace back to your policy and the data.
+> You define your product policy in three lines:
+> who you are, what you never do, and what you value.
+> BONSAI turns evidence into build, defer, or kill decisions, with reasons you can trace back to both policy and data.
 >
-> It doesn't replace your judgment. It makes your judgment explainable, repeatable, and fast enough to keep up with AI-speed production.
+> It does not replace your judgment.
+> It makes your judgment explainable, repeatable, and fast enough to keep up with AI-speed production.
 
 **画面**: Constitution Editor（We are / We never / We value の3行入力）
 
@@ -47,19 +61,23 @@
 
 ### 3. Approach (0:45 - 1:05) — 20秒
 
-**言いたいこと**: 3ステップ。Constitution → Evidence → Allocation。
+**言いたいこと**: allocation-first。Constitution → Evidence → Allocation の順で判断し、その後に handoff する。
 
 **スクリプト案**:
 
 > Three steps.
 >
-> First, you write your constitution — three lines that define your product boundaries.
-> We normalize this into evaluable clauses.
+> First, you write your constitution.
+> We normalize it into evaluable clauses.
 >
-> Second, you import evidence — customer interviews, usage data, support tickets.
-> We extract what users say versus what they actually need.
+> Second, you import evidence:
+> customer interviews, usage data, support tickets.
+> We structure what users say and what they actually need.
 >
-> Third, the allocation engine scores each candidate against your constitution and the evidence, and returns build, defer, or kill — with clause-level reasoning and a pre-mortem for every decision.
+> Third, the allocation engine evaluates candidates against your constitution and the evidence, and returns build, defer, or kill with clause-level reasoning.
+>
+> Only after allocation do we generate handoff artifacts.
+> Generation is downstream of judgment, not a replacement for it.
 
 **画面**: パイプライン図（Constitution → Evidence → Build/Defer/Kill）
 
@@ -67,24 +85,28 @@
 
 ### 4. How it works (1:05 - 1:30) — 25秒
 
-**言いたいこと**: デモ画面を見せる。Constitution が変われば判断が変わる。Build 候補は Execution Packet まで落とせる。
+**言いたいこと**: 同じ evidence でも constitution が変わると判断が変わり、surviving build は handoff に落ちる。
 
 **スクリプト案**:
 
 > Here's the product.
 >
-> (画面: Build Next Board)
-> This is the Build Next board. Each candidate has an allocation score, evidence count, and a feature outline ready for handoff.
+> First, I change the constitution.
+> Same evidence, different judgment.
 >
-> (画面: Kill/Defer Board)
-> This is the Kill board. Each killed candidate shows which constitutional clause it violated, the evidence, and a salvage path.
+> This is the allocation board.
+> On the left are the candidates we should build next.
+> On the right are the candidates we should defer or kill.
 >
-> (画面: Execution Packet)
-> For candidates that survive, we can turn the decision into an execution packet — UI changes, data model changes, workflow changes, and task breakdowns ready for coding agents.
+> If I open a kill decision, you can see the violated clause, the supporting evidence, and the pre-mortem.
+> So the system does not just say no. It explains why.
 >
-> Constitution in, allocation out. That's it.
+> And if a candidate survives, BONSAI turns it into an execution packet:
+> UI changes, data changes, workflow changes, and tasks ready for builders or coding agents.
+>
+> Constitution in, allocation out, handoff ready.
 
-**画面**: Build Next Board → Kill Board → Execution Packet の3画面切り替え
+**画面**: Constitution change → Build/Kill Board → Kill detail → Execution Packet
 
 ---
 
