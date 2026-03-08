@@ -125,7 +125,7 @@ function EvidenceColumnWithIds(props: {
   return (
     <div className="flex flex-col h-full">
       <div className="px-3 py-2 border-b bg-gray-50 flex-shrink-0">
-        <h2 className="text-sm font-bold text-gray-800">Evidence Layer</h2>
+        <h2 className="text-sm font-bold text-gray-800">Evidence</h2>
         <p className="text-[10px] text-gray-500">
           {props.observations.length} observations
         </p>
@@ -252,7 +252,7 @@ function CardColumnWithIds(props: {
   return (
     <div className="flex flex-col h-full">
       <div className="px-3 py-2 border-b bg-gray-50 flex-shrink-0">
-        <h2 className="text-sm font-bold text-gray-800">Card Layer</h2>
+        <h2 className="text-sm font-bold text-gray-800">Judgment</h2>
         <div className="flex gap-2 mt-0.5">
           <span className="text-[10px] text-green-700 font-medium">
             {builds.length} build

@@ -22,12 +22,12 @@ export function ActionColumn({ selectedDecision }: ActionColumnProps) {
     return (
       <div className="flex flex-col h-full">
         <div className="px-3 py-2 border-b bg-gray-50 flex-shrink-0">
-          <h2 className="text-sm font-bold text-gray-800">Action Layer</h2>
-          <p className="text-[10px] text-gray-500">Select a card to see actions</p>
+          <h2 className="text-sm font-bold text-gray-800">Action</h2>
+          <p className="text-[10px] text-gray-500">Select a judgment to see actions</p>
         </div>
         <div className="flex-1 flex items-center justify-center">
           <p className="text-xs text-gray-400 text-center px-4">
-            Select a card in the center panel to view available actions and execution details.
+            Select a judgment in the center panel to view available actions and execution details.
           </p>
         </div>
       </div>
@@ -44,7 +44,7 @@ export function ActionColumn({ selectedDecision }: ActionColumnProps) {
   return (
     <div className="flex flex-col h-full">
       <div className="px-3 py-2 border-b bg-gray-50 flex-shrink-0">
-        <h2 className="text-sm font-bold text-gray-800">Action Layer</h2>
+        <h2 className="text-sm font-bold text-gray-800">Action</h2>
         <p className="text-[10px] text-gray-500">
           {selectedDecision.title}
         </p>

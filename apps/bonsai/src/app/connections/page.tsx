@@ -38,7 +38,7 @@ export default function ConnectionsPage() {
                 BONSAI Connections
               </h1>
               <p className="text-[10px] text-gray-500">
-                Evidence → Card → Action — N:N cross-reference console
+                Evidence → Judgment → Action
               </p>
             </div>
           </div>
@@ -47,7 +47,7 @@ export default function ConnectionsPage() {
               <>
                 <span>{data.observations.length} evidence</span>
                 <span>·</span>
-                <span>{data.decisions.length} cards</span>
+                <span>{data.decisions.length} judgments</span>
               </>
             )}
           </div>
