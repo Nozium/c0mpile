@@ -9,16 +9,19 @@ LOG_DIR="$REPO_ROOT/log"
 usage() {
   cat <<'USAGE'
 Usage:
-  bash/run_ccw.sh [all|phase1|phase2|phase3|phase4 ...] [--send] [--print] [--run-log NAME]
+  bash/run_ccw.sh [all|phase1|phase2|phase3|phase4|phase1:01|phase3:02 ...] [--send] [--print] [--run-log NAME]
 
 Examples:
   bash/run_ccw.sh
   bash/run_ccw.sh phase1 --print
   bash/run_ccw.sh phase1 phase2 --send
+  bash/run_ccw.sh phase3:02 --send              # run only P3-2 (Virtual Staff)
+  bash/run_ccw.sh phase3:01 phase3:02 --send    # run P3-1 and P3-2
   bash/run_ccw.sh all --send --run-log ccw_phase_batch_01
 
 Behavior:
   - default: prepares prompts for all phases and shows where they were written
+  - phase:NN: run only the specified issue (e.g. phase3:02 = 02_*.md from phase3)
   - --print: prints the generated prompt body to stdout
   - --send: runs `claude --remote "<phase prompt>"` for each selected phase
   - --run-log: writes execution output to `log/<NAME>.log` and branch candidates to `log/<NAME>.branches.txt`
@@ -43,6 +46,7 @@ phase_exists() {
 
 build_phase_prompt() {
   local phase="$1"
+  local issue_filter="${2:-}"  # optional: "02" to filter to 02_*.md only
   local phase_dir="$ISSUES_DIR/$phase"
   local readme="$phase_dir/README.md"
   local file
@@ -52,7 +56,11 @@ build_phase_prompt() {
     return 1
   fi
 
-  printf 'BONSAI の %s issue を CCW 向けに共有します。\n' "$phase"
+  if [ -n "$issue_filter" ]; then
+    printf 'BONSAI の %s issue %s を CCW 向けに共有します。\n' "$phase" "$issue_filter"
+  else
+    printf 'BONSAI の %s issue を CCW 向けに共有します。\n' "$phase"
+  fi
   printf '以下は docs/issues/%s 配下の source of truth です。\n' "$phase"
   printf '確定事項は維持し、未確定事項は未確定のまま扱ってください。\n'
   printf 'issue の意図・依存関係・受け入れ条件を崩さず、この phase の実装整理と着手に使ってください。\n\n'
@@ -64,6 +72,14 @@ build_phase_prompt() {
       continue
     fi
 
+    # If issue_filter is set, only include matching files (e.g. "02" matches "02_*.md")
+    if [ -n "$issue_filter" ]; then
+      case "$(basename "$file")" in
+        "${issue_filter}"_*) ;;
+        *) continue ;;
+      esac
+    fi
+
     printf '\n\n## File: docs/issues/%s/%s\n\n' "$phase" "$(basename "$file")"
     cat "$file"
   done
@@ -71,9 +87,15 @@ build_phase_prompt() {
 
 write_prompt_file() {
   local phase="$1"
-  local prompt_file="/tmp/run_ccw.${phase}.prompt.txt"
+  local issue_filter="${2:-}"
+  local prompt_file
+  if [ -n "$issue_filter" ]; then
+    prompt_file="/tmp/run_ccw.${phase}_${issue_filter}.prompt.txt"
+  else
+    prompt_file="/tmp/run_ccw.${phase}.prompt.txt"
+  fi
 
-  build_phase_prompt "$phase" > "$prompt_file"
+  build_phase_prompt "$phase" "$issue_filter" > "$prompt_file"
   printf '%s\n' "$prompt_file"
 }
 
@@ -198,6 +220,9 @@ SEND=0
 PRINT=0
 RUN_LOG="ccw_$(timestamp_compact)"
 PHASES=()
+# Parallel arrays: PHASE_NAMES[i] = phase name, ISSUE_FILTERS[i] = issue number or ""
+PHASE_NAMES=()
+ISSUE_FILTERS=()
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -220,10 +245,19 @@ while [ "$#" -gt 0 ]; do
       exit 0
       ;;
     all)
-      PHASES=(phase1 phase2 phase3 phase4)
+      PHASE_NAMES=(phase1 phase2 phase3 phase4)
+      ISSUE_FILTERS=("" "" "" "")
+      ;;
+    phase[1-4]:*)
+      # e.g. phase3:02 -> phase=phase3, filter=02
+      local_phase="${1%%:*}"
+      local_filter="${1##*:}"
+      PHASE_NAMES+=("$local_phase")
+      ISSUE_FILTERS+=("$local_filter")
       ;;
     phase1|phase2|phase3|phase4)
-      PHASES+=("$1")
+      PHASE_NAMES+=("$1")
+      ISSUE_FILTERS+=("")
       ;;
     *)
       log "Unknown argument: $1"
@@ -234,12 +268,17 @@ while [ "$#" -gt 0 ]; do
   shift
 done
 
+# Back-compat: populate PHASES for header logging
+PHASES=("${PHASE_NAMES[@]}")
+
 RUN_LOG="${RUN_LOG%.log}"
 LOG_FILE="$LOG_DIR/${RUN_LOG}.log"
 BRANCH_SUMMARY_FILE="$LOG_DIR/${RUN_LOG}.branches.txt"
 
-if [ "${#PHASES[@]}" -eq 0 ]; then
-  PHASES=(phase1 phase2 phase3 phase4)
+if [ "${#PHASE_NAMES[@]}" -eq 0 ]; then
+  PHASE_NAMES=(phase1 phase2 phase3 phase4)
+  ISSUE_FILTERS=("" "" "" "")
+  PHASES=("${PHASE_NAMES[@]}")
 fi
 
 if [ "$SEND" -eq 1 ] && ! command -v claude >/dev/null 2>&1; then
@@ -256,25 +295,33 @@ cd "$REPO_ROOT"
 
 overall_status=0
 
-for phase in "${PHASES[@]}"; do
-  prompt_file="$(write_prompt_file "$phase")"
-  log "Prepared $phase prompt: $prompt_file"
-  printf 'phase=%s prompt_file=%s\n' "$phase" "$prompt_file" >> "$LOG_FILE"
+for idx in "${!PHASE_NAMES[@]}"; do
+  phase="${PHASE_NAMES[$idx]}"
+  issue_filter="${ISSUE_FILTERS[$idx]}"
+  if [ -n "$issue_filter" ]; then
+    run_label="${phase}:${issue_filter}"
+  else
+    run_label="$phase"
+  fi
+
+  prompt_file="$(write_prompt_file "$phase" "$issue_filter")"
+  log "Prepared $run_label prompt: $prompt_file"
+  printf 'phase=%s issue_filter=%s prompt_file=%s\n' "$phase" "$issue_filter" "$prompt_file" >> "$LOG_FILE"
 
   if [ "$PRINT" -eq 1 ]; then
-    printf '===== %s =====\n' "$phase"
+    printf '===== %s =====\n' "$run_label"
     cat "$prompt_file"
     printf '\n'
   fi
 
   if [ "$SEND" -eq 1 ]; then
-    log "Sending $phase to CCW via claude --remote"
-    if ! run_remote_phase "$phase" "$prompt_file"; then
+    log "Sending $run_label to CCW via claude --remote"
+    if ! run_remote_phase "$run_label" "$prompt_file"; then
       overall_status=1
-      log "Phase $phase finished with a non-zero status. See $LOG_FILE"
+      log "Phase $run_label finished with a non-zero status. See $LOG_FILE"
     fi
   else
-    log "Dry run for $phase: add --send to execute"
+    log "Dry run for $run_label: add --send to execute"
   fi
 done
 
