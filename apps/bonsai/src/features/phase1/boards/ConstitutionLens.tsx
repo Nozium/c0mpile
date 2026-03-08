@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { AllocationRun } from "@/lib/schema";
 
 const signalCell = {
@@ -52,67 +53,83 @@ export function ConstitutionLens({ run }: { run: AllocationRun }) {
     .map((d, i) => ({ decision: d, signals: axisSignals[i] }))
     .sort((a, b) => sortOrder[a.decision.verdict] - sortOrder[b.decision.verdict]);
 
-  return (
-    <div className="bg-white rounded-xl border shadow-sm p-4 overflow-x-auto">
-      <h3 className="text-sm font-bold text-gray-900 mb-1">
-        Constitutional Lens
-      </h3>
-      <p className="text-[11px] text-gray-400 mb-3">
-        All candidates evaluated against the same clauses.
-        <span className="inline-block w-2.5 h-2.5 bg-emerald-500 rounded-sm mx-1 align-middle" /> aligned
-        <span className="inline-block w-2.5 h-2.5 bg-red-500 rounded-sm mx-1 align-middle" /> violated
-        <span className="inline-block w-2.5 h-2.5 bg-gray-200 rounded-sm mx-1 align-middle" /> neutral
-      </p>
+  const [open, setOpen] = useState(false);
 
-      <table className="w-full text-xs">
-        <thead>
-          <tr className="border-b">
-            <th className="text-left py-1.5 pr-3 font-medium text-gray-500 whitespace-nowrap">
-              Candidate
-            </th>
-            <th className="text-left py-1.5 pr-2 font-medium text-gray-500 w-16">
-              Verdict
-            </th>
-            {axes.map((axis) => (
-              <th
-                key={axis}
-                className="text-center py-1.5 px-1 font-mono text-[10px] text-gray-400 whitespace-nowrap"
-                title={axis}
-              >
-                {axis.replace(/_/g, " ").slice(0, 12)}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {sorted.map(({ decision, signals }) => (
-            <tr key={decision.id} className="border-b border-gray-100 hover:bg-gray-50">
-              <td className="py-1.5 pr-3 text-gray-800 font-medium whitespace-nowrap max-w-[200px] truncate">
-                {decision.theme_label}
-              </td>
-              <td className="py-1.5 pr-2">
-                <span
-                  className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${verdictBadge[decision.verdict]}`}
-                >
-                  {decision.verdict.toUpperCase()}
-                </span>
-              </td>
-              {signals.map((signal, i) => {
-                const style = signalCell[signal];
-                return (
-                  <td key={axes[i]} className="text-center py-1.5 px-1">
+  return (
+    <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+      <button
+        type="button"
+        className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors"
+        onClick={() => setOpen((v) => !v)}
+      >
+        <h3 className="text-sm font-bold text-gray-900">
+          Constitutional Lens
+        </h3>
+        <span className="text-gray-400 text-xs">
+          {open ? "▲ collapse" : "▼ expand"}
+        </span>
+      </button>
+
+      {open && (
+        <div className="px-4 pb-4 overflow-x-auto">
+          <p className="text-[11px] text-gray-400 mb-3">
+            All candidates evaluated against the same clauses.
+            <span className="inline-block w-2.5 h-2.5 bg-emerald-500 rounded-sm mx-1 align-middle" /> aligned
+            <span className="inline-block w-2.5 h-2.5 bg-red-500 rounded-sm mx-1 align-middle" /> violated
+            <span className="inline-block w-2.5 h-2.5 bg-gray-200 rounded-sm mx-1 align-middle" /> neutral
+          </p>
+
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="border-b">
+                <th className="text-left py-1.5 pr-3 font-medium text-gray-500 whitespace-nowrap">
+                  Candidate
+                </th>
+                <th className="text-left py-1.5 pr-2 font-medium text-gray-500 w-16">
+                  Verdict
+                </th>
+                {axes.map((axis) => (
+                  <th
+                    key={axis}
+                    className="text-center py-1.5 px-1 font-mono text-[10px] text-gray-400 whitespace-nowrap"
+                    title={axis}
+                  >
+                    {axis.replace(/_/g, " ").slice(0, 12)}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {sorted.map(({ decision, signals }) => (
+                <tr key={decision.id} className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-1.5 pr-3 text-gray-800 font-medium whitespace-nowrap max-w-[200px] truncate">
+                    {decision.theme_label}
+                  </td>
+                  <td className="py-1.5 pr-2">
                     <span
-                      className={`inline-block w-5 h-5 rounded ${style.bg} text-white text-[10px] font-bold leading-5 text-center`}
+                      className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${verdictBadge[decision.verdict]}`}
                     >
-                      {style.label}
+                      {decision.verdict.toUpperCase()}
                     </span>
                   </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                  {signals.map((signal, i) => {
+                    const style = signalCell[signal];
+                    return (
+                      <td key={axes[i]} className="text-center py-1.5 px-1">
+                        <span
+                          className={`inline-block w-5 h-5 rounded ${style.bg} text-white text-[10px] font-bold leading-5 text-center`}
+                        >
+                          {style.label}
+                        </span>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
