@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { DecisionConnection } from "@/lib/schema";
 
 const actionLabels: Record<string, { label: string; icon: string }> = {
@@ -13,11 +14,77 @@ const actionLabels: Record<string, { label: string; icon: string }> = {
   view_salvage_path: { label: "View Salvage Path", icon: "🔀" },
 };
 
+function buildRationale(d: DecisionConnection): string {
+  const reason =
+    d.verdict === "kill"
+      ? d.kill_reason
+      : d.verdict === "defer"
+      ? d.defer_reason
+      : d.build_rationale;
+  return [
+    `[${d.verdict.toUpperCase()}] ${d.title}`,
+    reason ?? "",
+    d.violated_clauses.length > 0
+      ? `Violated: ${d.violated_clauses.join(", ")}`
+      : "",
+    `Confidence: ${(d.confidence * 100).toFixed(0)}%`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
 interface ActionColumnProps {
   selectedDecision: DecisionConnection | null;
 }
 
 export function ActionColumn({ selectedDecision }: ActionColumnProps) {
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  const handleAction = (action: string, decision: DecisionConnection) => {
+    const rationale = buildRationale(decision);
+
+    switch (action) {
+      case "copy_rationale":
+        navigator.clipboard.writeText(rationale);
+        showToast(`Rationale copied: ${decision.title}`);
+        break;
+      case "view_execution_packet":
+        showToast(`Execution packet opened: ${decision.title}`);
+        break;
+      case "coding_agent_export":
+        navigator.clipboard.writeText(
+          `# Coding Agent Task\n\n${decision.title}\n\n${rationale}`
+        );
+        showToast(`Agent export copied: ${decision.title}`);
+        break;
+      case "send_rork":
+        showToast(`Sent to Rork: ${decision.title}`);
+        break;
+      case "override_decision":
+        showToast(`Override requested: ${decision.title}`);
+        break;
+      case "request_more_evidence":
+        showToast(`More evidence requested: ${decision.title}`);
+        break;
+      case "create_salvage_proposal":
+        navigator.clipboard.writeText(
+          `Salvage Proposal: ${decision.title}\n\n${rationale}`
+        );
+        showToast(`Salvage proposal copied: ${decision.title}`);
+        break;
+      case "view_salvage_path":
+        showToast(`Salvage path opened: ${decision.title}`);
+        break;
+      default:
+        showToast(`${action.replace(/_/g, " ")}: ${decision.title}`);
+        break;
+    }
+  };
   if (!selectedDecision) {
     return (
       <div className="flex flex-col h-full">
@@ -42,7 +109,7 @@ export function ActionColumn({ selectedDecision }: ActionColumnProps) {
       : "text-yellow-700";
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="relative flex flex-col h-full">
       <div className="px-3 py-2 border-b bg-gray-50 flex-shrink-0">
         <h2 className="text-sm font-bold text-gray-800">Action</h2>
         <p className="text-[10px] text-gray-500">
@@ -127,6 +194,7 @@ export function ActionColumn({ selectedDecision }: ActionColumnProps) {
               return (
                 <button
                   key={action}
+                  onClick={() => handleAction(action, selectedDecision)}
                   className="w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
                 >
                   <span className="text-sm">{meta.icon}</span>
@@ -137,6 +205,11 @@ export function ActionColumn({ selectedDecision }: ActionColumnProps) {
           </div>
         </div>
       </div>
+      {toast && (
+        <div className="absolute bottom-4 right-4 left-4 bg-gray-900 text-white text-xs px-3 py-2 rounded-lg shadow-lg animate-in fade-in duration-200">
+          {toast}
+        </div>
+      )}
     </div>
   );
 }
