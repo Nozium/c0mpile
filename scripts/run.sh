@@ -11,5 +11,19 @@ if [ ! -d "$APP_DIR/node_modules" ]; then
   exit 1
 fi
 
+# Agent Chat requires claude CLI in PATH
+if ! command -v claude &>/dev/null; then
+  printf '\033[33m%s\033[0m\n' "[warn] claude CLI not found in PATH — Agent Chat will return fallback responses"
+else
+  printf '\033[32m%s\033[0m\n' "[ok] claude CLI detected — Agent Chat is live"
+fi
+
+printf '%s\n' ""
+printf '%s\n' "  BONSAI — Constitutional Product Allocation"
+printf '%s\n' "  ─────────────────────────────────────────"
+printf '%s\n' "  Frontend + API : Next.js (includes /api/agent-chat)"
+printf '%s\n' "  Agent backend  : claude -p (local, via Next.js API route)"
+printf '%s\n' ""
+
 cd "$REPO_ROOT"
 exec npm --prefix "$APP_DIR" run dev -- "$@"
