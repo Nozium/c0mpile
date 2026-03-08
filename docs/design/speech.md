@@ -17,6 +17,71 @@
 - `How it works`
   - Write a constitution, run allocation, inspect the evidence, and turn surviving ideas into handoff artifacts.
 
+## Demo Runbook
+
+### Demo Goal
+
+- `Same evidence, different constitution, different judgment`
+- `Every decision is traceable back to evidence and policy`
+- `A surviving build candidate becomes a handoff artifact`
+
+### Starting State
+
+- Local app is open on `/`
+- `Constitution A: Privacy-First Productivity` is selected
+- `A/B Compare` is off
+- Build board and Kill / Defer board are visible
+
+### 90-Second Operator Flow
+
+1. `Problem`
+   - 話すだけ。まだクリックしない
+   - 「AI made building fast, but PM judgment did not get faster」
+2. `Show Constitution`
+   - 画面上部の Constitution を見せる
+   - `Constitution A` の clause を指す
+3. `Change Judgment`
+   - `Constitution B` を選ぶ
+   - 必要なら `Re-evaluate` を押す
+   - `Same evidence, different judgment` を言う
+4. `Show Board`
+   - Build 側の 1 枚を指す
+   - Kill 側の 1 枚を指す
+   - `build / defer / kill` が分かれたことを言う
+5. `Open Evidence`
+   - Kill か Defer の card で `detail` を押す
+   - violated clause と supporting evidence を見せる
+6. `Open Connections`
+   - 右上の `Connections Console` を押す
+   - Evidence / Judgment / Action の 3 列を見せる
+   - 1つの evidence が複数 judgment に効いていることを言う
+7. `Show Handoff`
+   - Board に戻る
+   - Build card の `Execution Packet` を開く
+   - 余裕があれば `Prepare Rork Brief` を押して clipboard handoff を見せる
+
+### Fallback Flow
+
+- Constitution 差分が見えにくい場合:
+  - `A/B Compare` を ON にする
+  - `Re-evaluate` を押して差分バッジを見せる
+- Connections まで行く時間がない場合:
+  - Board 上の `detail` と `Execution Packet` だけで締める
+- Handoff まで行く時間がない場合:
+  - `Execution Packet` が見えた時点で止める
+
+### What To Avoid Saying
+
+- `AI replaces PM judgment`
+- `Rork is already fully integrated`
+- `Agents are autonomously shipping product`
+
+### What To Say Instead
+
+- `BONSAI makes PM judgment explainable and repeatable`
+- `Backend agents structure evidence, evaluate candidates, and prepare handoff artifacts`
+- `Generation happens after allocation, not before it`
+
 ---
 
 ## Outline (時間配分)
@@ -91,22 +156,30 @@
 
 > Here's the product.
 >
-> First, I change the constitution.
+> I switch the constitution and re-evaluate.
 > Same evidence, different judgment.
 >
 > This is the allocation board.
-> On the left are the candidates we should build next.
-> On the right are the candidates we should defer or kill.
+> The backend agents normalize evidence, evaluate candidates, and prepare handoff artifacts.
 >
-> If I open a kill decision, you can see the violated clause, the supporting evidence, and the pre-mortem.
-> So the system does not just say no. It explains why.
+> If I open a kill decision, you can see the violated clause and the supporting evidence.
+> Then I can open the Connections Console to trace how evidence, judgment, and action connect.
 >
-> And if a candidate survives, BONSAI turns it into an execution packet:
-> UI changes, data changes, workflow changes, and tasks ready for builders or coding agents.
+> And if a candidate survives, BONSAI turns it into an execution packet for builders or coding agents.
 >
 > Constitution in, allocation out, handoff ready.
 
-**画面**: Constitution change → Build/Kill Board → Kill detail → Execution Packet
+**画面**: Constitution change → Build/Kill Board → Kill detail → Connections Console → Execution Packet
+
+---
+
+## 実装済みの見せ方に合わせた要点
+
+- `Re-evaluate` は live に allocation を再実行する
+- `Agent Activity` は backend agent の進捗表示として見せる
+- `Connections Console` は `Evidence -> Judgment -> Action` の trace 画面として見せる
+- `Prepare Rork Brief` は現時点では clipboard handoff
+- `Execution Packet` と `Agent Export` は build card から見せる
 
 ---
 
