@@ -67,7 +67,7 @@
 
 ### 4. How it works (1:05 - 1:30) — 25秒
 
-**言いたいこと**: デモ画面を見せる。Constitution が変われば判断が変わる。Build 候補は Execution Packet まで落ちる。
+**言いたいこと**: デモ画面を見せる。Constitution が変われば判断が変わる。Build 候補は Execution Packet まで落とせる。
 
 **スクリプト案**:
 
@@ -80,7 +80,7 @@
 > This is the Kill board. Each killed candidate shows which constitutional clause it violated, the evidence, and a salvage path.
 >
 > (画面: Execution Packet)
-> For candidates that survive, we generate an execution packet — UI changes, data model changes, workflow changes, and task breakdowns ready for coding agents.
+> For candidates that survive, we can turn the decision into an execution packet — UI changes, data model changes, workflow changes, and task breakdowns ready for coding agents.
 >
 > Constitution in, allocation out. That's it.
 
@@ -95,10 +95,10 @@
 | 1 | **Constitution Input** | We are / We never / We value の3行を入力できる | 必須 |
 | 2 | **Constitution Parse** | 3行テキストを5軸の clause に正規化して表示する | 必須 |
 | 3 | **Observation Data** | Pre-shaped dataset が読み込まれた状態で表示される（手動 import 不要、事前ロード可） | 必須 |
-| 4 | **Build Next Board** | build / continue 候補を allocation score 降順で表示。各カードに title, score, target user, why now, evidence count | 必須 |
+| 4 | **Build Next Board** | build 候補を allocation score 降順で表示。各カードに title, score, target user, why now, evidence count | 必須 |
 | 5 | **Kill / Defer Board** | kill / defer 候補を表示。各カードに title, kill type, violated clause, evidence count, confidence | 必須 |
 | 6 | **Evidence Drill-down** | カードを開くと supporting observations, clause reasoning, pre-mortem が見える | 必須 |
-| 7 | **Execution Packet** | build 候補を開くと UI/data/workflow 変更案 + coding agent tasks が表示される | 必須 |
+| 7 | **Execution Packet** | build 候補を開くと UI/data/workflow 変更案 + coding agent tasks が表示される。デモでは pre-computed を許容 | 必須 |
 | 8 | **Constitution 変更で結果が変わる** | Constitution を書き換えると build/kill の判定が変化する（Live でやる核心部分） | 必須 |
 
 ## 動作の期待（詳細）
@@ -122,11 +122,11 @@
 - ページロード時に自動読み込み、Import UI は不要（デモ用）
 
 ### 4. Build Next Board
-- build / continue の Proposal を score 降順で表示
+- build の Proposal を score 降順で表示
 - 各カード表示項目:
   - title
   - allocation_score (0-1)
-  - decision badge (BUILD / CONTINUE)
+  - decision badge (BUILD)
   - target_user
   - problem_statement (1行)
   - why_now (1行)
@@ -157,7 +157,7 @@
   - violated clause の source_text と normalized_rule
 
 ### 7. Execution Packet
-- build/continue の Proposal から生成（ボタン押下 or 事前生成）
+- build の Proposal から表示（デモでは事前生成を許容）
 - 表示項目:
   - problem_statement
   - target_user_state
