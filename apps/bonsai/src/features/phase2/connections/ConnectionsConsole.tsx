@@ -115,6 +115,22 @@ export function ConnectionsConsole({
   );
 }
 
+const severityStyles: Record<string, { bg: string; badge: string; border: string }> = {
+  critical: { bg: "bg-red-50", badge: "bg-red-100 text-red-700", border: "border-red-300" },
+  major: { bg: "bg-orange-50", badge: "bg-orange-100 text-orange-700", border: "border-orange-300" },
+  minor: { bg: "bg-yellow-50", badge: "bg-yellow-100 text-yellow-700", border: "border-yellow-300" },
+  neutral: { bg: "bg-gray-50", badge: "bg-gray-100 text-gray-600", border: "border-gray-300" },
+};
+
+const channelBadgeColors: Record<string, string> = {
+  customer_interview: "bg-blue-100 text-blue-700",
+  usage_data: "bg-purple-100 text-purple-700",
+  app_store_review: "bg-green-100 text-green-700",
+  support_ticket: "bg-orange-100 text-orange-700",
+  sales_call: "bg-indigo-100 text-indigo-700",
+  nps_survey: "bg-teal-100 text-teal-700",
+};
+
 /** Wrapper that adds DOM IDs to evidence items for connection lines */
 function EvidenceColumnWithIds(props: {
   observations: ObservationConnection[];
@@ -122,16 +138,29 @@ function EvidenceColumnWithIds(props: {
   highlightedObservationIds: Set<string>;
   onSelect: (id: string | null) => void;
 }) {
+  const criticalCount = props.observations.filter((o) => o.severity === "critical").length;
+  const majorCount = props.observations.filter((o) => o.severity === "major").length;
+  const otherCount = props.observations.filter((o) => o.severity === "minor" || o.severity === "neutral").length;
+
   return (
     <div className="flex flex-col h-full">
       <div className="px-3 py-2 border-b bg-gray-50 flex-shrink-0">
         <h2 className="text-sm font-bold text-gray-800">Evidence</h2>
-        <p className="text-[10px] text-gray-500">
-          {props.observations.length} observations
-        </p>
+        <div className="flex gap-2 mt-0.5">
+          <span className="text-[10px] text-red-700 font-medium">
+            {criticalCount} critical
+          </span>
+          <span className="text-[10px] text-orange-700 font-medium">
+            {majorCount} major
+          </span>
+          <span className="text-[10px] text-gray-600 font-medium">
+            {otherCount} other
+          </span>
+        </div>
       </div>
-      <div className="flex-1 overflow-y-auto" data-scroll-area>
+      <div className="flex-1 overflow-y-auto p-2 space-y-2" data-scroll-area>
         {sortObservations(props.observations).map((obs) => {
+          const style = severityStyles[obs.severity] ?? severityStyles.neutral;
           const isSelected =
             props.selectedObservationId === obs.observation_id;
           const isHighlighted = props.highlightedObservationIds.has(
@@ -143,22 +172,6 @@ function EvidenceColumnWithIds(props: {
             !isSelected;
           const linkedCount = obs.linked_proposal_ids.length;
 
-          const severityColor: Record<string, string> = {
-            critical: "bg-red-100 text-red-700",
-            major: "bg-orange-100 text-orange-700",
-            minor: "bg-yellow-100 text-yellow-700",
-            neutral: "bg-gray-100 text-gray-600",
-          };
-
-          const channelBadge: Record<string, string> = {
-            customer_interview: "bg-blue-100 text-blue-700",
-            usage_data: "bg-purple-100 text-purple-700",
-            app_store_review: "bg-green-100 text-green-700",
-            support_ticket: "bg-orange-100 text-orange-700",
-            sales_call: "bg-indigo-100 text-indigo-700",
-            nps_survey: "bg-teal-100 text-teal-700",
-          };
-
           return (
             <button
               key={obs.observation_id}
@@ -166,47 +179,43 @@ function EvidenceColumnWithIds(props: {
               onClick={() =>
                 props.onSelect(isSelected ? null : obs.observation_id)
               }
-              className={`w-full text-left px-3 py-2 border-b transition-all ${
+              className={`w-full text-left rounded-lg border p-3 transition-all ${
                 isSelected
-                  ? "bg-blue-50 border-l-2 border-l-blue-500"
+                  ? `${style.bg} ${style.border} border-2 ring-2 ring-blue-200`
                   : isHighlighted
-                  ? "bg-amber-50 border-l-2 border-l-amber-400"
+                  ? `${style.bg} ${style.border} border-2`
                   : isDimmed
-                  ? "opacity-30"
-                  : "hover:bg-gray-50 border-l-2 border-l-transparent"
+                  ? "opacity-30 border-gray-200"
+                  : `border-gray-200 hover:${style.bg} hover:${style.border}`
               }`}
             >
-              <div className="flex items-center gap-1.5 mb-1">
-                <span className="text-[10px] font-mono text-gray-400">
-                  {obs.observation_id}
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <span
+                  className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${style.badge}`}
+                >
+                  {obs.severity}
                 </span>
                 <span
                   className={`text-[9px] px-1.5 py-0.5 rounded-full font-medium ${
-                    channelBadge[obs.channel_type] ?? "bg-gray-100 text-gray-600"
+                    channelBadgeColors[obs.channel_type] ?? "bg-gray-100 text-gray-600"
                   }`}
                 >
                   {obs.channel_type.replace(/_/g, " ")}
                 </span>
-                <span
-                  className={`text-[9px] px-1.5 py-0.5 rounded-full font-medium ${
-                    severityColor[obs.severity]
-                  }`}
-                >
-                  {obs.severity}
+                <span className="text-[10px] text-gray-400 font-mono">
+                  {(obs.confidence * 100).toFixed(0)}%
                 </span>
               </div>
-              <p className="text-xs text-gray-700 line-clamp-2 leading-relaxed">
+              <p className="text-xs text-gray-700 line-clamp-2 leading-relaxed mb-1.5">
                 &ldquo;{obs.raw_text}&rdquo;
               </p>
-              <div className="flex items-center gap-2 mt-1">
+              <div className="flex items-center gap-2 text-[9px] text-gray-400">
+                <span className="font-mono">{obs.observation_id}</span>
                 {linkedCount > 0 && (
-                  <span className="text-[9px] text-gray-500">
+                  <span>
                     → {linkedCount} card{linkedCount !== 1 ? "s" : ""}
                   </span>
                 )}
-                <span className="text-[9px] text-gray-400">
-                  {(obs.confidence * 100).toFixed(0)}%
-                </span>
               </div>
             </button>
           );
